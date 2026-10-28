@@ -123,7 +123,7 @@ export default function ClinicScene() {
   return (
     <section
       ref={sectionRef}
-      className="section relative overflow-hidden bg-sand"
+      className="wash relative overflow-hidden py-16 sm:py-24"
       aria-labelledby="clinic-scene-title"
     >
       {/* Warm wash + hairline grid so the photos sit on something, not in a void. */}

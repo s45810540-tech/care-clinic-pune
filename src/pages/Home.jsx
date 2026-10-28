@@ -252,11 +252,13 @@ function Stats() {
 function DoctorTeaser() {
   const { t, L } = useI18n();
   return (
-    <section className="section">
-      <div className="container-page grid items-center gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1fr)] lg:gap-16">
+    <section className="section relative overflow-hidden">
+      <div className="blob -right-28 top-10 h-80 w-80 animate-drift bg-sky-200/60" aria-hidden />
+      <div className="container-page relative grid items-center gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1fr)] lg:gap-16">
         <div className="relative" data-reveal="left">
-          <div className="absolute -left-4 -top-4 h-40 w-40 rounded-3xl bg-accent-100" aria-hidden />
-          <div className="absolute -bottom-5 -right-5 h-36 w-36 rounded-3xl bg-brand-100" aria-hidden />
+          {/* Coloured plates behind the portrait, one step further back in Z. */}
+          <div className="absolute -left-4 -top-4 h-40 w-40 rotate-6 rounded-3xl bg-coral-200/80" aria-hidden />
+          <div className="absolute -bottom-5 -right-5 h-36 w-36 -rotate-6 rounded-3xl bg-grape-200/80" aria-hidden />
           <Tilt max={6} className="relative overflow-hidden rounded-4xl border border-line shadow-lift">
             <img
               src={DOCTOR.photo}
@@ -471,7 +473,7 @@ function MapSection() {
 function BlogPreview() {
   const { t, L } = useI18n();
   return (
-    <section className="section bg-white">
+    <section className="section relative overflow-hidden bg-sand">
       <div className="container-page">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <SectionHeading
