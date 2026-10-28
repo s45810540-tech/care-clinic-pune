@@ -43,7 +43,20 @@ export function nextOpening(date = new Date()) {
 /** Formats "09:00" → "9:00 am" (en) / "सकाळी 9:00" (mr). */
 export function formatTime(hhmm, lang = 'en') {
   const [h, m] = String(hhmm).split(':').map(Number);
-  const suffix = h >= 12 ? (lang === 'mr' ? 'संध्या.' : 'pm') : lang === 'mr' ? 'स.' : 'am';
+  // Marathi day-parts, as the clinic's own board writes them:
+  // स. (morning) · दु. (midday) · संध्या. (evening) · रात्री. (night).
+  const suffix =
+    lang === 'mr'
+      ? h < 12
+        ? 'स.'
+        : h < 16
+          ? 'दु.'
+          : h < 20
+            ? 'संध्या.'
+            : 'रात्री.'
+      : h >= 12
+        ? 'pm'
+        : 'am';
   const hour12 = h % 12 === 0 ? 12 : h % 12;
   return lang === 'mr'
     ? `${suffix}${hour12}:${String(m).padStart(2, '0')}`
