@@ -96,13 +96,7 @@ export default function ServicesCarousel() {
               >
                 <div className="flex items-start justify-between">
                   <span
-                    className={`grid h-12 w-12 place-items-center rounded-2xl ${[
-                      'bg-accent-400/20 text-accent-300',
-                      'bg-sky-400/20 text-sky-300',
-                      'bg-rose-400/20 text-rose-300',
-                      'bg-violet-400/20 text-violet-300',
-                      'bg-brand-400/20 text-brand-300',
-                    ][i % 5]}`}
+                    className="grid h-12 w-12 place-items-center rounded-2xl bg-accent-400/15 text-accent-300"
                   >
                     <Icon name={s.icon} className="h-6 w-6" />
                   </span>

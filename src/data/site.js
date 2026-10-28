@@ -31,23 +31,63 @@ export const waLink = (message = '') =>
   `https://wa.me/${WHATSAPP_NUMBER}${message ? `?text=${encodeURIComponent(message)}` : ''}`;
 
 export const HOURS = {
-  // [PLACEHOLDER] Opening time was not supplied — replace "09:00" with the clinic's real opening time.
-  openingTime: '09:00',
-  closingTime: '22:00', // "closes 10 pm" (given)
+  /**
+   * The clinic runs two OPD sessions a day (taken from the signboard itself:
+   * "स.१० ते दु.२, सायं. ५ ते १०") — not one continuous day. Every display, the
+   * "open now" badge and the booking slot generator read this list, so the
+   * 2–5 pm lunch break is correctly treated as closed.
+   */
+  sessions: [
+    { open: '10:00', close: '14:00' }, // morning OPD
+    { open: '17:00', close: '22:00' }, // evening OPD
+  ],
   openAllDays: true,
+  // Kept for simpler reads (first open / last close).
+  openingTime: '10:00',
+  closingTime: '22:00',
 };
 
 export const EMERGENCY_NUMBER = '112';
 
-export const DOCTOR = {
-  name: 'Dr. Swati Kamble',
-  role: { en: 'Consultant — General Medicine & Surgery', mr: 'सल्लागार — सामान्य औषधशास्त्र व शस्त्रक्रिया' },
-  // [PLACEHOLDER] Client must supply the actual degrees/diplomas.
-  qualifications: '[QUALIFICATIONS]',
-  // [PLACEHOLDER] Client must supply the Maharashtra State Medical Council registration number.
-  regNo: '[REG. NO.]',
-  photo: '/images/doctor-portrait.svg', // [PLACEHOLDER] replace with a real photograph (WebP, 800×1000)
-};
+/**
+ * Both consultants, as printed on the clinic's signboard. `qualifications` and
+ * `regNo` are the real Maharashtra council details — no placeholders left.
+ */
+export const DOCTORS = [
+  {
+    id: 'swati-kamble',
+    name: 'Dr. Swati Kamble',
+    role: {
+      en: 'Consultant — General Medicine & Surgery (piles, fissure, fistula)',
+      mr: 'सल्लागार — सामान्य औषधशास्त्र व शस्त्रक्रिया (मूळव्याध, फिशर, फिस्टुला)',
+    },
+    qualifications: 'M.S. (Shalya)',
+    regNo: 'I-53778-A',
+    focus: {
+      en: 'General medicine, day-care procedures, piles / fissure / fistula surgery.',
+      mr: 'सामान्य औषधोपचार, डे-केअर प्रक्रिया, मूळव्याध / फिशर / फिस्टुला शस्त्रक्रिया.',
+    },
+    photo: '/images/doctor-portrait.svg', // [PLACEHOLDER] replace with her photograph
+  },
+  {
+    id: 'prakash-kamble',
+    name: 'Dr. Prakash Kamble',
+    role: {
+      en: 'Consultant — Ayurvedic medicine',
+      mr: 'सल्लागार — आयुर्वेदिक औषधोपचार',
+    },
+    qualifications: 'B.A.M.S.',
+    regNo: 'I-57210-A',
+    focus: {
+      en: 'Ayurvedic treatment and long-term follow-up care.',
+      mr: 'आयुर्वेदिक उपचार व दीर्घकालीन पाठपुरावा.',
+    },
+    photo: '/images/doctor-portrait.svg', // [PLACEHOLDER] replace with his photograph
+  },
+];
+
+/** The lead consultant — kept as a named export for existing imports. */
+export const DOCTOR = DOCTORS[0];
 
 export const RATING = {
   value: 4.9,

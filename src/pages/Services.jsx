@@ -55,7 +55,7 @@ export default function Services() {
       <PageHeader eyebrow={t('nav.services')} title={t('services.title')} sub={t('services.sub')} />
 
       {/* Jump links */}
-      <nav className="sticky top-[96px] z-30 border-b border-brand-100 bg-white/95 backdrop-blur" aria-label="Services">
+      <nav className="sticky top-[var(--header-h)] z-30 border-b border-brand-100 bg-white/95 backdrop-blur" aria-label="Services">
         <div className="no-scrollbar container-page flex gap-2 overflow-x-auto py-3">
           {SERVICES.map((s) => (
             <a
@@ -76,7 +76,7 @@ export default function Services() {
           <section
             key={service.slug}
             id={service.slug}
-            className={`scroll-mt-[160px] bg-gradient-to-b ${TONES[i % TONES.length]} py-14 sm:py-20`}
+            className={`anchor-offset bg-gradient-to-b ${TONES[i % TONES.length]} py-14 sm:py-20`}
           >
             <div className="container-page grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
               <div data-reveal={flip ? 'right' : 'left'}>

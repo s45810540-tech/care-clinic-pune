@@ -14,14 +14,24 @@ export default function Layout() {
   const { pathname } = useLocation();
 
   return (
-    <div className="flex min-h-dvh flex-col">
+    <div className="flex min-h-dvh flex-col bg-paper">
+      {/* First thing in the tab order (WCAG 2.4.1). */}
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full
+                   focus:bg-brand-900 focus:px-5 focus:py-3 focus:text-sm focus:font-bold focus:text-white"
+      >
+        Skip to content
+      </a>
+
       <ScrollToTop />
       <Header />
       <MagneticCursor />
 
-      {/* Header is fixed: reserve its height. Bottom padding keeps content clear of the mobile bar. */}
-      <main id="main" className="flex-1 pt-[96px] pb-24 md:pb-0">
-        <div key={pathname}>
+      {/* Header publishes its real height as --header-h; the bottom padding keeps
+          the last section clear of the sticky mobile action bar. */}
+      <main id="main" className="flex-1 pb-24 pt-[var(--header-h)] md:pb-0">
+        <div key={pathname} className="animate-fade-up motion-reduce:animate-none">
           <Outlet />
         </div>
       </main>

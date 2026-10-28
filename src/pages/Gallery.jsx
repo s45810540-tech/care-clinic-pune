@@ -6,6 +6,7 @@ import { PageHeader } from '../components/ui';
 import { GALLERY } from '../data/content';
 import { hasRealPhotos } from '../data/photos';
 import Icon from '../components/Icon';
+import Tilt from '../components/Tilt';
 
 /** Photo gallery with a minimal lightbox (keyboard + backdrop close). */
 export default function Gallery() {
@@ -34,38 +35,36 @@ export default function Gallery() {
     <>
       <PageHeader eyebrow={t('gallery.title')} title={t('gallery.title')} sub={t('gallery.sub')} />
 
-      <section className="container-page py-14 sm:py-20">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <section className="container-page section">
+        <div className="stage-3d grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {GALLERY.map((item, i) => (
-            <button
+            <Tilt
               key={item.src}
-              type="button"
-              onClick={() => setActive(i)}
-              className={`group relative overflow-hidden rounded-3xl border text-left shadow-card transition hover:-translate-y-1 focus-visible:outline-offset-4 ${[
-                'border-brand-200',
-                'border-accent-200',
-                'border-sky-200',
-                'border-rose-200',
-                'border-violet-200',
-                'border-brand-200',
-              ][i]}`}
+              max={7}
+              className="rounded-3xl"
               data-reveal
               data-delay={(i % 3) * 0.06}
-              data-magnetic
             >
-              <img
-                src={item.src}
-                alt={L(item.caption)}
-                width={640}
-                height={480}
-                loading="lazy"
-                className="aspect-[4/3] w-full object-cover transition duration-500 group-hover:scale-105"
-              />
-              <span className="absolute inset-x-0 bottom-0 flex items-center justify-between bg-gradient-to-t from-brand-900/90 to-transparent p-4 text-sm font-bold text-white">
-                {L(item.caption)}
-                <Icon name="arrowUpRight" className="h-4 w-4" />
-              </span>
-            </button>
+              <button
+                type="button"
+                onClick={() => setActive(i)}
+                className="group relative block w-full overflow-hidden rounded-3xl border border-line bg-white text-left shadow-card
+                           transition-shadow duration-300 hover:shadow-lift focus-visible:outline-offset-4"
+              >
+                <img
+                  src={item.src}
+                  alt={L(item.caption)}
+                  width={640}
+                  height={480}
+                  loading="lazy"
+                  className="aspect-[4/3] w-full object-cover transition duration-500 ease-brand group-hover:scale-[1.04]"
+                />
+                <span className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-3 bg-gradient-to-t from-brand-950/90 via-brand-950/40 to-transparent p-4 text-sm font-bold text-white">
+                  {L(item.caption)}
+                  <Icon name="arrowUpRight" className="h-4 w-4 shrink-0" />
+                </span>
+              </button>
+            </Tilt>
           ))}
         </div>
 

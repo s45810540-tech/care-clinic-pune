@@ -3,18 +3,39 @@
 @tailwind utilities;
 
 /* ------------------------------------------------------------------ */
+/* Design tokens available as CSS variables                            */
+/*   --header-h  measured by Header.jsx (ResizeObserver) so the fixed    */
+/*               header can never overlap content, whatever wraps.       */
+/* ------------------------------------------------------------------ */
+:root {
+  --header-h: 96px;
+  --page-x: 1.25rem;
+  --hairline: 1px solid #e6ebe8;
+}
+
+@media (min-width: 640px) {
+  :root { --page-x: 1.5rem; }
+}
+@media (min-width: 1024px) {
+  :root { --page-x: 2rem; }
+}
+
+/* ------------------------------------------------------------------ */
 /* Base                                                                */
 /* ------------------------------------------------------------------ */
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
     scroll-behavior: auto; /* Lenis owns scrolling; disable native smooth-scroll fighting it */
+    scroll-padding-top: calc(var(--header-h) + 1.5rem);
   }
 
   body {
-    @apply bg-white text-ink antialiased;
+    @apply bg-paper text-ink antialiased;
     font-feature-settings: 'kern', 'liga';
+    font-synthesis-weight: none;
     overflow-x: hidden;
+    text-rendering: optimizeLegibility;
   }
 
   h1, h2, h3, h4 {
@@ -22,59 +43,124 @@
     text-wrap: balance;
   }
 
+  /* Optical size: the bigger the heading, the tighter it wants to be set. */
+  h1 { letter-spacing: -0.035em; }
+  h2 { letter-spacing: -0.025em; }
+  h3 { letter-spacing: -0.015em; }
+
   p {
     text-wrap: pretty;
   }
+
+  /* Numbers in stats/prices/phone lines line up as columns. */
+  .tabular { font-variant-numeric: tabular-nums; }
 
   ::selection {
     @apply bg-brand-700 text-white;
   }
 
-  /* Visible, high-contrast focus ring for keyboard users (WCAG 2.4.7) */
+  /* Visible, high-contrast focus ring for keyboard users (WCAG 2.4.7).
+     Phones/touch never see it, so it costs nothing there. */
   :focus-visible {
-    outline: 3px solid #0d9488;
+    outline: 3px solid #2c776a;
     outline-offset: 2px;
-    border-radius: 6px;
+    border-radius: 8px;
   }
 
   /* Comfortable tap targets on phones */
   a, button, input, select, textarea {
     @apply touch-manipulation;
   }
+
+  img, svg { max-width: 100%; }
 }
 
 /* ------------------------------------------------------------------ */
-/* Components                                                          */
+/* Components — every repeated pattern in the UI lives here so the     */
+/* whole site changes in one place.                                    */
 /* ------------------------------------------------------------------ */
 @layer components {
   .container-page {
-    @apply mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8;
+    @apply mx-auto w-full max-w-7xl;
+    padding-left: var(--page-x);
+    padding-right: var(--page-x);
   }
 
+  /* Vertical rhythm: one measure for every band on every page. */
+  .section { @apply py-16 sm:py-24; }
+  .section-sm { @apply py-12 sm:py-16; }
+
+  /* Alternating surfaces: paper → sand → white. */
+  .surface { @apply bg-white; }
+  .surface-alt { @apply bg-sand; }
+  .surface-hair { @apply border-y border-line bg-paper; }
+
+  /* ---- Type scale ------------------------------------------------ */
+  .title-xl { @apply text-[2.55rem] leading-[1.03] sm:text-6xl lg:text-[4.25rem]; }
+  .title-lg { @apply text-3xl leading-[1.08] sm:text-4xl lg:text-[3.25rem]; }
+  .title-md { @apply text-2xl leading-[1.15] sm:text-3xl; }
+  .lead { @apply text-base leading-relaxed text-ink-mute sm:text-lg sm:leading-[1.7]; }
+  .body-sm { @apply text-sm leading-relaxed text-ink-mute; }
+
+  /* ---- Buttons --------------------------------------------------- */
   .btn {
     @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-bold
-           transition duration-200 will-change-transform disabled:cursor-not-allowed disabled:opacity-60;
+           transition duration-300 ease-brand will-change-transform disabled:cursor-not-allowed disabled:opacity-60;
   }
+  /* A tiny nudge on the leading icon — the cheapest "this is clickable" cue. */
+  .btn > svg:first-child { @apply transition-transform duration-300 ease-brand; }
+  .btn:hover > svg:first-child { transform: translateY(-1px) scale(1.04); }
+
   .btn-primary {
-    @apply btn bg-brand-700 text-white shadow-glow hover:bg-brand-800 active:translate-y-px;
+    @apply btn bg-brand-700 text-white shadow-glow hover:bg-brand-800 active:scale-[0.985];
   }
   .btn-accent {
-    @apply btn bg-accent-500 text-ink shadow-soft hover:bg-accent-400 active:translate-y-px;
+    @apply btn bg-accent-400 text-ink shadow-soft hover:bg-accent-300 active:scale-[0.985];
   }
   .btn-ghost {
-    @apply btn border border-brand-200 bg-white/80 text-brand-800 hover:border-brand-400 hover:bg-white;
+    @apply btn border border-line bg-white text-brand-800 shadow-soft
+           hover:border-brand-300 hover:bg-brand-50 active:scale-[0.985];
   }
   .btn-dark {
-    @apply btn bg-ink text-white hover:bg-ink-soft active:translate-y-px;
+    @apply btn bg-ink text-white hover:bg-ink-soft active:scale-[0.985];
+  }
+  /* White-on-dark contexts (footer, CTA band, dark carousel). */
+  .btn-light {
+    @apply btn bg-white text-brand-900 hover:bg-brand-50 active:scale-[0.985];
+  }
+  .btn-outline-light {
+    @apply btn border border-white/35 text-white hover:border-white/70 hover:bg-white/10 active:scale-[0.985];
   }
 
+  .btn-sm { @apply px-4 py-2 text-[13px]; }
+
+  /* ---- Surfaces -------------------------------------------------- */
   .card {
-    @apply rounded-3xl border border-brand-100 bg-white shadow-card;
+    @apply rounded-3xl border border-line bg-white shadow-card;
+  }
+  .card-hover {
+    @apply transition duration-300 ease-brand hover:-translate-y-1 hover:border-brand-200 hover:shadow-lift;
+  }
+  .panel {
+    @apply rounded-4xl border border-line bg-white p-6 shadow-card sm:p-8;
+  }
+  .panel-tint {
+    @apply rounded-4xl border border-brand-100 bg-brand-50/70 p-6 sm:p-8;
+  }
+  .panel-dark {
+    @apply rounded-4xl border border-white/10 bg-brand-950 text-white;
   }
 
+  /* ---- Small labels ---------------------------------------------- */
   .eyebrow {
-    @apply inline-flex items-center gap-2 rounded-full border border-brand-200 bg-brand-50 px-3.5 py-1.5
-           text-xs font-bold uppercase tracking-[0.14em] text-brand-800;
+    @apply inline-flex items-center gap-2 rounded-full border border-brand-200/70 bg-white/70 px-3.5 py-1.5
+           text-[11px] font-extrabold uppercase tracking-[0.16em] text-brand-800 backdrop-blur-sm;
+  }
+  .eyebrow-dot { @apply h-1.5 w-1.5 rounded-full bg-accent-500; }
+
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-line bg-white px-3 py-1.5
+           text-xs font-bold text-ink-soft;
   }
 
   .link-underline {
@@ -82,19 +168,26 @@
            after:transition-all after:duration-300 hover:after:w-full;
   }
 
+  /* ---- Forms ----------------------------------------------------- */
   .field-label {
     @apply mb-1.5 block text-sm font-bold text-ink-soft;
   }
+  /* 16px minimum: anything smaller makes iOS Safari zoom the page on focus. */
   .field-input {
-    @apply w-full rounded-2xl border border-brand-200 bg-white px-4 py-3 text-[15px] text-ink
-           placeholder:text-ink-mute/60 focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-100;
+    @apply w-full rounded-2xl border border-line bg-white px-4 py-3 text-base text-ink
+           transition duration-200 ease-brand placeholder:text-ink-mute/60
+           hover:border-brand-200 focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-100;
+  }
+  .field-input[aria-invalid='true'] {
+    @apply border-red-400 bg-red-50/40 focus:border-red-500 focus:ring-red-100;
   }
   .field-error {
-    @apply mt-1.5 block text-xs font-semibold text-red-700;
+    @apply mt-1.5 flex items-start gap-1 text-xs font-semibold text-red-700;
   }
 
-  .prose-clinic h2 { @apply mt-10 mb-4 text-2xl font-extrabold text-ink sm:text-3xl; }
-  .prose-clinic h3 { @apply mt-8 mb-3 text-xl font-bold text-ink; }
+  /* ---- Long-form (blog + legal) ---------------------------------- */
+  .prose-clinic h2 { @apply mb-4 mt-10 text-2xl font-extrabold text-ink sm:text-3xl; }
+  .prose-clinic h3 { @apply mb-3 mt-8 text-xl font-bold text-ink; }
   .prose-clinic p { @apply my-4 leading-relaxed text-ink-soft; }
   .prose-clinic ul { @apply my-4 space-y-2 pl-1; }
   .prose-clinic li { @apply relative pl-6 leading-relaxed text-ink-soft; }
@@ -117,6 +210,10 @@
 .js [data-reveal='left'] { transform: translateX(-32px); }
 .js [data-reveal='right'] { transform: translateX(32px); }
 .js [data-reveal='scale'] { transform: scale(0.94); }
+.js [data-reveal='3d'] {
+  transform: perspective(900px) rotateX(10deg) translateY(44px) scale(0.97);
+  transform-origin: 50% 100%;
+}
 
 /* ------------------------------------------------------------------ */
 /* Reduced motion: kill every decorative animation                     */
@@ -141,7 +238,7 @@
 /* ------------------------------------------------------------------ */
 @layer utilities {
   .grain {
-    background-image: radial-gradient(rgba(10, 31, 29, 0.06) 1px, transparent 1px);
+    background-image: radial-gradient(rgba(12, 26, 23, 0.05) 1px, transparent 1px);
     background-size: 4px 4px;
   }
   .mask-fade-x {
@@ -150,6 +247,60 @@
   }
   .no-scrollbar::-webkit-scrollbar { display: none; }
   .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+  /* Respect the notch/home-indicator on phones. */
+  .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+  .mb-safe { margin-bottom: env(safe-area-inset-bottom); }
+
+  /* Anchored sections (service jump links) clear the fixed header. */
+  .anchor-offset { scroll-margin-top: calc(var(--header-h) + 4.5rem); }
+
+  /* ---- 3D ------------------------------------------------------- */
+  /* Shared perspective for scroll-driven 3D stages (home photo scene,
+     service cards, gallery). One value so depth reads the same everywhere. */
+  .stage-3d {
+    perspective: 1200px;
+    perspective-origin: 50% 40%;
+  }
+
+  /* Pointer-leaning photo stage (components/home/ClinicScene.jsx). The JS only
+     writes the two angles; the easing lives here. */
+  .scene-stage {
+    transform: rotateX(var(--scene-rx, 0deg)) rotateY(var(--scene-ry, 0deg));
+    transform-style: preserve-3d;
+    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .scene-stage { transform: none; }
+  }
+
+  /* Tilt wrapper (components/Tilt.jsx): the JS writes the transform, this
+     supplies the easing and the paint hints. */
+  .tilt {
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
+  }
+  .tilt__sheen {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: var(--tilt-sheen, 0);
+    transition: opacity 0.3s ease;
+    background: radial-gradient(
+      240px circle at var(--tilt-x, 50%) var(--tilt-y, 50%),
+      rgba(255, 255, 255, 0.5),
+      transparent 62%
+    );
+  }
+  /* Phones have no hover: skip the sheen entirely. */
+  @media (hover: none) {
+    .tilt__sheen { display: none; }
+    .tilt { transition: none; }
+  }
 
   /*
    * Pinned cinema chapter: the three value cards overlap in one grid cell
@@ -165,6 +316,10 @@
 /* Static pre-paint shell (markup lives in index.html, dismissed by     */
 /* src/App.jsx once the real page heading paints). Plain CSS — not a     */
 /* Tailwind layer — so it ships even before the app bundle executes.     */
+/*                                                                      */
+/* Deliberately LIGHT: it mirrors the real hero's surface, so the       */
+/* hand-off to React is a fade between two near-identical screens       */
+/* instead of a dark→light flash.                                       */
 /* ------------------------------------------------------------------ */
 .boot {
   position: fixed;
@@ -173,13 +328,13 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  color: #fff;
+  color: #0c1a17;
   opacity: 1;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.32s ease;
   background:
-    radial-gradient(900px 420px at 12% 0%, rgba(249, 155, 32, 0.22), transparent 70%),
-    radial-gradient(760px 520px at 92% 100%, rgba(20, 184, 166, 0.34), transparent 70%),
-    linear-gradient(160deg, #0f766e 0%, #115e59 46%, #042f2e 100%);
+    radial-gradient(760px 380px at 8% -10%, rgba(63, 145, 130, 0.16), transparent 70%),
+    radial-gradient(700px 420px at 95% 105%, rgba(224, 158, 58, 0.14), transparent 70%),
+    linear-gradient(180deg, #f7fbfa 0%, #fcfbf8 60%, #ffffff 100%);
 }
 .boot--gone {
   opacity: 0;
@@ -190,8 +345,8 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding: 0.85rem clamp(1.1rem, 4vw, 2.5rem);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  padding: 0.7rem clamp(1.1rem, 4vw, 2.5rem);
+  border-bottom: 1px solid rgba(12, 26, 23, 0.07);
   font-size: 0.78rem;
 }
 .boot__brand { display: inline-flex; align-items: center; gap: 0.6rem; }
@@ -201,8 +356,8 @@
   width: 2rem;
   height: 2rem;
   border-radius: 0.7rem;
-  background: #fff;
-  color: #0f766e;
+  background: #245f56;
+  color: #fff;
   font-weight: 800;
   font-size: 1.05rem;
 }
@@ -210,12 +365,12 @@
 .boot__tag {
   display: block;
   font-size: 0.6rem;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  color: #99f6e4;
+  color: #2c776a;
 }
-.boot__emg { color: #fed7aa; font-weight: 700; }
+.boot__emg { color: #855017; font-weight: 700; }
 .boot__hero {
   flex: 1;
   display: flex;
@@ -231,22 +386,22 @@
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.18em;
-  color: #5eead4;
+  color: #2c776a;
 }
 .boot__h1 {
   margin: 0;
   max-width: 17ch;
-  font-size: clamp(2.75rem, 11vw, 7.5rem);
-  line-height: 1.03;
+  font-size: clamp(2.5rem, 10vw, 6.5rem);
+  line-height: 1.02;
   font-weight: 800;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.035em;
 }
 .boot__lead {
   margin: 0;
-  max-width: 48ch;
-  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  max-width: 46ch;
+  font-size: clamp(1rem, 1.5vw, 1.18rem);
   line-height: 1.6;
-  color: rgba(255, 255, 255, 0.87);
+  color: #55655f;
 }
 .boot__cta { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 0.5rem 0 0; }
 .boot__btn {
@@ -259,9 +414,9 @@
   font-size: 1rem;
   text-decoration: none;
 }
-.boot__btn--primary { background: #fff; color: #0f3d38; }
-.boot__btn--ghost { border: 1px solid rgba(255, 255, 255, 0.45); color: #fff; }
-.boot__note { margin: 0.25rem 0 0; font-size: 0.82rem; color: rgba(255, 255, 255, 0.72); }
+.boot__btn--primary { background: #245f56; color: #fff; box-shadow: 0 14px 34px -16px rgba(36, 95, 86, 0.62); }
+.boot__btn--ghost { border: 1px solid rgba(12, 26, 23, 0.14); color: #1f4c46; background: #fff; }
+.boot__note { margin: 0.25rem 0 0; font-size: 0.85rem; color: #55655f; }
 @media (max-width: 640px) {
   .boot__emg { display: none; }
   .boot__cta { flex-direction: column; align-items: stretch; }

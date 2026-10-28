@@ -52,7 +52,7 @@ export function useReveals(scopeRef, deps = []) {
     const ctx = gsap.context(() => {
       const els = gsap.utils.toArray('[data-reveal]');
       if (reduced) {
-        gsap.set(els, { opacity: 1, x: 0, y: 0, scale: 1 });
+        gsap.set(els, { opacity: 1, x: 0, y: 0, scale: 1, rotateX: 0, clearProps: 'transform' });
         return;
       }
       els.forEach((el) => {
@@ -61,6 +61,8 @@ export function useReveals(scopeRef, deps = []) {
           variant === 'left' ? { x: -32, y: 0 } :
           variant === 'right' ? { x: 32, y: 0 } :
           variant === 'scale' ? { scale: 0.94, y: 0 } :
+          // '3d' — the element tips up out of the page as it arrives.
+          variant === '3d' ? { y: 44, rotateX: 10, transformPerspective: 900, transformOrigin: '50% 100%' } :
           variant === 'fade' ? { y: 0 } : { y: 26 };
 
         // `opacity` (not autoAlpha) keeps the text in the accessibility tree and
@@ -74,6 +76,7 @@ export function useReveals(scopeRef, deps = []) {
             x: 0,
             y: 0,
             scale: 1,
+            rotateX: 0,
             duration: 0.9,
             ease: 'power3.out',
             delay: parseFloat(el.dataset.delay || 0),

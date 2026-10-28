@@ -71,7 +71,7 @@ export default function VisitTimeline() {
                   {/* Rotating node colours: each stays AA with white text */}
                   <span
                     className={`absolute top-1 z-10 grid h-12 w-12 place-items-center rounded-full border-4 border-white text-sm font-extrabold text-white shadow-soft left-0.5 ${
-                      ['bg-brand-700', 'bg-accent-700', 'bg-sky-600', 'bg-rose-600'][i % 4]
+                      'bg-brand-700'
                     } ${right ? 'sm:-left-6' : 'sm:left-auto sm:-right-6'}`}
                   >
                     {step.step}

@@ -1,13 +1,16 @@
 import { useState } from 'react';
+import { useI18n } from '../i18n/I18nContext';
 import { waLink } from '../data/site';
 import Icon from './Icon';
 
 /**
  * Floating WhatsApp button — click-to-chat (wa.me), no paid WhatsApp Business API.
- * Hidden automatically while the mobile bottom bar is showing its own WhatsApp action.
+ * Desktop/tablet only: on phones the sticky bottom bar already carries WhatsApp,
+ * so a second floating button would just sit on top of it.
  */
 export default function WhatsAppFab() {
   const [hover, setHover] = useState(false);
+  const { t } = useI18n();
 
   return (
     <a
@@ -16,17 +19,22 @@ export default function WhatsAppFab() {
       rel="noopener noreferrer"
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      className="group fixed right-4 bottom-24 z-40 flex items-center gap-2 rounded-full bg-emerald-700 py-3.5 pl-4 pr-4 text-white shadow-[0_12px_32px_-8px_rgba(16,185,129,0.7)] transition hover:bg-emerald-800 md:right-6 md:bottom-6"
+      onFocus={() => setHover(true)}
+      onBlur={() => setHover(false)}
+      className="group fixed bottom-6 right-6 z-40 hidden items-center gap-2 rounded-full bg-emerald-700 py-3.5 pl-4 pr-4 text-white
+                 shadow-[0_16px_36px_-14px_rgba(16,185,129,0.85)] transition duration-300 ease-brand
+                 hover:bg-emerald-800 hover:shadow-[0_20px_44px_-14px_rgba(16,185,129,0.95)] md:flex"
       aria-label="Chat with the clinic on WhatsApp"
       data-magnetic
     >
       <Icon name="whatsapp" className="h-6 w-6" fill="currentColor" strokeWidth={0} />
       <span
-        className={`hidden overflow-hidden whitespace-nowrap text-sm font-bold transition-all duration-300 md:inline-block ${
-          hover ? 'max-w-[160px] opacity-100' : 'max-w-0 opacity-0'
+        className={`overflow-hidden whitespace-nowrap text-sm font-bold transition-all duration-300 ease-brand ${
+          hover ? 'max-w-[180px] opacity-100' : 'max-w-0 opacity-0'
         }`}
+        aria-hidden={!hover}
       >
-        Chat with us
+        {t('common.whatsapp')}
       </span>
     </a>
   );
