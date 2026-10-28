@@ -7,6 +7,7 @@ import { PageHeader, PlaceholderTag } from '../components/ui';
 import { SERVICES } from '../data/content';
 import { useEffect, useRef } from 'react';
 import Icon from '../components/Icon';
+import Tilt from '../components/Tilt';
 
 const TONES = [
   'from-brand-50 to-white',
@@ -119,10 +120,12 @@ export default function Services() {
               </div>
 
               {/* Illustration panel — [PLACEHOLDER] swap for a real clinic photograph */}
-              <div className={flip ? 'lg:order-first' : ''} data-reveal={flip ? 'left' : 'right'}>
-                <div
+              <div className={flip ? 'lg:order-first' : ''} data-reveal="3d">
+                <Tilt
+                  max={8}
+                  scale={1.012}
                   data-service-art
-                  className="relative overflow-hidden rounded-[2rem] border border-brand-100 bg-white p-8 shadow-card"
+                  className="relative overflow-hidden rounded-[2rem] border border-line bg-white p-8 shadow-card"
                 >
                   <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-brand-100/70" />
                   <div className="pointer-events-none absolute -bottom-10 -left-10 h-40 w-40 rounded-full bg-accent-100/70" />
@@ -143,7 +146,7 @@ export default function Services() {
                   <p className="mt-3 text-center text-[11px] text-ink-mute">
                     <PlaceholderTag>Illustration — replace with a photo</PlaceholderTag>
                   </p>
-                </div>
+                </Tilt>
               </div>
             </div>
           </section>

@@ -56,6 +56,54 @@ export default function ServicesCarousel() {
     };
   }, [reduced]);
 
+  /**
+   * 3D coverflow: cards rotate in Y and shrink the further they sit from the
+   * viewport centre, so the rail reads as a curved shelf of cards rather than a
+   * flat strip. Driven from the scroll position of both the window (desktop,
+   * where GSAP translates the track) and the track itself (mobile, native
+   * horizontal scroll), throttled to one layout read per frame.
+   */
+  useEffect(() => {
+    if (reduced) return undefined;
+    const track = trackRef.current;
+    if (!track) return undefined;
+    const cards = Array.from(track.querySelectorAll('[data-card3d]'));
+    let frame = 0;
+
+    const update = () => {
+      frame = 0;
+      const vw = window.innerWidth;
+      const centre = vw / 2;
+      cards.forEach((card) => {
+        const r = card.getBoundingClientRect();
+        const offset = Math.max(-1, Math.min(1, (r.left + r.width / 2 - centre) / vw));
+        const rotY = offset * -11;
+        const scale = 1 - Math.abs(offset) * 0.055;
+        card.style.transform = `perspective(1400px) rotateY(${rotY.toFixed(2)}deg) scale(${scale.toFixed(3)})`;
+        card.style.opacity = String(1 - Math.abs(offset) * 0.28);
+      });
+    };
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule);
+    track.addEventListener('scroll', schedule, { passive: true });
+
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener('scroll', schedule);
+      window.removeEventListener('resize', schedule);
+      track.removeEventListener('scroll', schedule);
+      cards.forEach((card) => {
+        card.style.transform = '';
+        card.style.opacity = '';
+      });
+    };
+  }, [reduced]);
+
   return (
     <section ref={sectionRef} className="relative overflow-hidden bg-brand-950 py-16 lg:h-screen lg:py-0">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(900px_400px_at_80%_0%,rgba(20,184,166,0.35),transparent_60%)]" />
@@ -82,15 +130,17 @@ export default function ServicesCarousel() {
 
         {/* Track: horizontal on mobile via overflow, translated by GSAP on desktop */}
         <div className="mt-8 overflow-x-auto lg:mt-12 lg:overflow-visible">
-          <div
-            ref={trackRef}
-            className="no-scrollbar flex w-max snap-x snap-mandatory gap-5 px-5 sm:gap-6 lg:px-8 xl:pl-[max(2rem,calc((100vw-80rem)/2+2rem))]"
-          >
+          <div className="[perspective:1400px] [perspective-origin:50%_45%]">
+            <div
+              ref={trackRef}
+              className="no-scrollbar flex w-max snap-x snap-mandatory gap-5 px-5 [transform-style:preserve-3d] sm:gap-6 lg:px-8 xl:pl-[max(2rem,calc((100vw-80rem)/2+2rem))]"
+            >
             {SERVICES.map((s, i) => (
               <article
                 key={s.slug}
                 data-magnetic
-                className="group relative w-[80vw] max-w-[340px] shrink-0 snap-start overflow-hidden rounded-3xl border border-white/10 bg-white/[0.07] p-6 backdrop-blur-sm transition duration-300 hover:-translate-y-1.5 hover:border-accent-300/50 hover:bg-white/[0.12] sm:w-[340px] lg:w-[360px]"
+                data-card3d
+                className="group relative w-[80vw] max-w-[340px] shrink-0 snap-start overflow-hidden rounded-3xl border border-white/10 bg-white/[0.07] p-6 backdrop-blur-sm transition-[border-color,background-color,box-shadow] duration-300 will-change-transform hover:border-accent-300/50 hover:bg-white/[0.12] hover:shadow-[0_30px_60px_-30px_rgba(0,0,0,0.7)] sm:w-[340px] lg:w-[360px]"
                 data-reveal="up"
                 data-delay={Math.min(i * 0.05, 0.25)}
               >
@@ -122,6 +172,7 @@ export default function ServicesCarousel() {
                 </Link>
               </article>
             ))}
+            </div>
           </div>
         </div>
 
