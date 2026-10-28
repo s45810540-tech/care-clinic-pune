@@ -29,6 +29,20 @@ const maxISO = () => {
 };
 
 /**
+ * Default booking date: today while it still has a bookable slot, otherwise
+ * tomorrow. Without this, anyone opening the page after 9:30 pm (or during the
+ * 2-5 pm break) landed on a date where every chip was disabled.
+ */
+function firstBookableDate() {
+  const today = todayISO();
+  const hasSlotLeft = buildSessions(today).some((s) => s.slots.some((slot) => !slot.disabled));
+  if (hasSlotLeft) return today;
+  const next = new Date();
+  next.setDate(next.getDate() + 1);
+  return localISODate(next);
+}
+
+/**
  * Every bookable slot for a date, grouped by OPD session.
  *
  * Two rules matter here and both used to be wrong:
@@ -99,7 +113,7 @@ export default function BookAppointment() {
     phone: '',
     age: '',
     service: SERVICES.find((s) => s.slug === presetService)?.slug || '',
-    date: todayISO(),
+    date: firstBookableDate(),
     time: '',
     symptoms: '',
     consent: false,
