@@ -154,16 +154,20 @@ export default function Services() {
       })}
 
       {/* Closing CTA */}
-      <section className="bg-brand-900 py-14 text-white sm:py-16">
-        <div className="container-page flex flex-col items-start gap-5 lg:flex-row lg:items-center lg:justify-between">
-          <div data-reveal="left">
-            {/* explicit white — the base h1–h4 rule (text-ink) beats inherited color */}
-            <h2 className="text-3xl leading-[1.1] text-white sm:text-4xl lg:text-5xl">{t('home.ctaTitle')}</h2>
-            <p className="mt-2 text-brand-100/85">{t('home.ctaSub')}</p>
+      <section className="relative overflow-hidden pb-4 pt-2">
+        <div className="container-page">
+          <div className="wash wash-strong relative overflow-hidden rounded-[2.5rem] border border-line p-8 shadow-lift sm:p-10" data-reveal="3d">
+            <span className="rainbow-edge absolute inset-x-0 top-0 h-1.5" aria-hidden />
+            <div className="relative flex flex-col items-start gap-6 lg:flex-row lg:items-center lg:justify-between">
+              <div className="max-w-2xl">
+                <h2 className="text-3xl leading-[1.1] text-ink sm:text-4xl lg:text-[3rem]">{t('home.ctaTitle')}</h2>
+                <p className="mt-2 text-ink-soft">{t('home.ctaSub')}</p>
+              </div>
+              <Link to="/book" className="btn-primary !px-7 !py-4 text-base" data-magnetic>
+                <Icon name="calendar" className="h-5 w-5" /> {t('common.bookNow')}
+              </Link>
+            </div>
           </div>
-          <Link to="/book" className="btn bg-accent-500 !px-7 !py-4 text-ink hover:bg-accent-400" data-magnetic>
-            <Icon name="calendar" className="h-5 w-5" /> {t('common.bookNow')}
-          </Link>
         </div>
       </section>
     </div>

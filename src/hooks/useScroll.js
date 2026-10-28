@@ -43,7 +43,7 @@ export function useSmoothScroll() {
 
 /**
  * Reveals every [data-reveal] element inside `scopeRef` as it enters the viewport.
- * Supports data-reveal="fade|left|right|scale" variants from index.css.
+ * Supports data-reveal="fade|left|right|scale|3d|flipY|tilt-top" variants from index.css.
  */
 export function useReveals(scopeRef, deps = []) {
   const reduced = usePrefersReducedMotion();
@@ -52,7 +52,7 @@ export function useReveals(scopeRef, deps = []) {
     const ctx = gsap.context(() => {
       const els = gsap.utils.toArray('[data-reveal]');
       if (reduced) {
-        gsap.set(els, { opacity: 1, x: 0, y: 0, scale: 1, rotateX: 0, clearProps: 'transform' });
+        gsap.set(els, { opacity: 1, x: 0, y: 0, scale: 1, rotateX: 0, rotateY: 0, clearProps: 'transform' });
         return;
       }
       els.forEach((el) => {
@@ -63,6 +63,10 @@ export function useReveals(scopeRef, deps = []) {
           variant === 'scale' ? { scale: 0.94, y: 0 } :
           // '3d' — the element tips up out of the page as it arrives.
           variant === '3d' ? { y: 44, rotateX: 10, transformPerspective: 900, transformOrigin: '50% 100%' } :
+          // 'flipY' — side panels swing in around their left edge.
+          variant === 'flipY' ? { x: 28, y: 0, rotateY: -24, transformPerspective: 1100, transformOrigin: '0% 50%' } :
+          // 'tilt-top' — grids of cards hang down from above, then settle.
+          variant === 'tilt-top' ? { y: -24, rotateX: -16, transformPerspective: 1100, transformOrigin: '50% 0%' } :
           variant === 'fade' ? { y: 0 } : { y: 26 };
 
         // `opacity` (not autoAlpha) keeps the text in the accessibility tree and
@@ -77,6 +81,7 @@ export function useReveals(scopeRef, deps = []) {
             y: 0,
             scale: 1,
             rotateX: 0,
+            rotateY: 0,
             duration: 0.9,
             ease: 'power3.out',
             delay: parseFloat(el.dataset.delay || 0),

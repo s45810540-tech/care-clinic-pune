@@ -205,6 +205,7 @@
 .js [data-reveal] {
   opacity: 0;
   transform: translateY(26px);
+  will-change: transform, opacity;
 }
 .js [data-reveal='fade'] { transform: none; }
 .js [data-reveal='left'] { transform: translateX(-32px); }
@@ -213,6 +214,16 @@
 .js [data-reveal='3d'] {
   transform: perspective(900px) rotateX(10deg) translateY(44px) scale(0.97);
   transform-origin: 50% 100%;
+}
+/* Two extra 3D entrances: rotate on Y (side panels, photos) and a bird's-eye
+   tilt for grids of cards. */
+.js [data-reveal='flipY'] {
+  transform: perspective(1100px) rotateY(-24deg) translateX(28px);
+  transform-origin: 0% 50%;
+}
+.js [data-reveal='tilt-top'] {
+  transform: perspective(1100px) rotateX(-16deg) translateY(-24px);
+  transform-origin: 50% 0%;
 }
 
 /* ------------------------------------------------------------------ */
@@ -310,6 +321,101 @@
    */
   .cinema-stack { display: grid; }
   .cinema-stack > * { grid-area: 1 / 1; }
+
+  /* ---- Bright surfaces ------------------------------------------- */
+  /* Section wash: white base, colour blooms at the corners, faint dot grid on
+     top. Everything sits behind content, so contrast is measured on white. */
+  .wash {
+    position: relative;
+    isolation: isolate;
+    background-color: #fff;
+    background-image: theme('backgroundImage.aurora');
+    background-repeat: no-repeat;
+  }
+  .wash::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-image: theme('backgroundImage.dots');
+    background-size: 22px 22px;
+    opacity: 0.5;
+    -webkit-mask-image: radial-gradient(80% 60% at 50% 0%, #000, transparent 75%);
+    mask-image: radial-gradient(80% 60% at 50% 0%, #000, transparent 75%);
+    pointer-events: none;
+  }
+  .wash-strong { background-image: theme('backgroundImage.aurora-strong'); }
+
+  /* Free-floating colour blob. The drift keyframes are 18-26s and offset per
+     instance, so nothing appears to move in step. */
+  .blob {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(48px);
+    opacity: 0.55;
+    pointer-events: none;
+    will-change: transform;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .blob { animation: none !important; }
+  }
+
+  /* Coloured top edge for cards: one line of spectrum, no gradients per card. */
+  .rainbow-edge {
+    background-image: theme('backgroundImage.rainbow-line');
+  }
+  .text-rainbow {
+    background-image: theme('backgroundImage.rainbow-line');
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* ---- 3D flip card --------------------------------------------- */
+  /* Front/back rotate on the same box. The JS toggles [data-flipped]; hover and
+     focus-within also flip, so it works with a pointer, a keyboard and a thumb. */
+  .flip {
+    perspective: 1400px;
+    transform-style: preserve-3d;
+  }
+  .flip__inner {
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  /* Hover flips for pointers; data-flipped is the keyboard/touch state, so the
+     visual state and aria-expanded can never disagree. */
+  .flip:hover .flip__inner,
+  .flip[data-flipped='true'] .flip__inner {
+    transform: rotateY(180deg);
+  }
+  .flip__side {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  .flip__back {
+    position: absolute;
+    inset: 0;
+    transform: rotateY(180deg);
+  }
+  /* No 3D on reduced motion: the back face is simply stacked under the front. */
+  @media (prefers-reduced-motion: reduce) {
+    .flip__inner { transform: none !important; transition: none; }
+    .flip__back {
+      position: static;
+      transform: none;
+      -webkit-backface-visibility: visible;
+      backface-visibility: visible;
+    }
+  }
+
+  /* Scrub helper for cards that rotate in as they cross the viewport. The JS
+     writes only --card-rx / --card-y. */
+  .scrub-3d {
+    transform: perspective(1100px) rotateX(var(--card-rx, 0deg)) translate3d(0, var(--card-y, 0px), 0);
+    transform-origin: 50% 100%;
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
 }
 
 /* ------------------------------------------------------------------ */

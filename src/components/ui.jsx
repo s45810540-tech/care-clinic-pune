@@ -96,13 +96,11 @@ export function PlaceholderTag({ children = 'Client to replace' }) {
  */
 export function PageHeader({ eyebrow, title, sub, children, backTo, backLabel }) {
   return (
-    <section className="relative isolate overflow-hidden border-b border-line bg-gradient-to-b from-white to-sand">
-      {/* One soft wash + a faint dot grid. No competing blobs. */}
-      <div
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(760px_320px_at_88%_-30%,rgba(63,145,130,0.16),transparent_65%)]"
-        aria-hidden
-      />
-      <div className="pointer-events-none absolute inset-0 grain opacity-40 [mask-image:linear-gradient(to_bottom,#000,transparent_70%)]" aria-hidden />
+    <section className="wash wash-strong relative isolate overflow-hidden border-b border-line">
+      {/* Colour blooms sit behind the text on a white base, so contrast never
+          depends on where a blob happens to be. */}
+      <div className="blob -right-20 -top-10 h-72 w-72 animate-drift bg-sky-300/50" aria-hidden />
+      <div className="blob -left-24 bottom-0 h-64 w-64 animate-drift-slow bg-coral-200/55" aria-hidden />
 
       <div className="container-page relative pb-10 pt-10 sm:pb-14 sm:pt-14">
         {backTo && (
@@ -130,6 +128,7 @@ export function PageHeader({ eyebrow, title, sub, children, backTo, backLabel })
         )}
         {children}
       </div>
+      <span className="rainbow-edge absolute inset-x-0 bottom-0 h-1" aria-hidden />
     </section>
   );
 }

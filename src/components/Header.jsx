@@ -114,6 +114,8 @@ export default function Header() {
 
   return (
     <header ref={headerRef} className="fixed inset-x-0 top-0 z-50">
+      {/* Spectrum crown: 3px of colour across the very top of every page. */}
+      <div className="rainbow-edge h-[3px] w-full" aria-hidden />
       {/* Utility strip — emergency number, phone, rating, language. */}
       <div className="bg-brand-950 text-white">
         <div className="container-page flex min-h-8 items-center justify-between gap-3 py-1 text-[11px] sm:text-xs">

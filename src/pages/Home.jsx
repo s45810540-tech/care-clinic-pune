@@ -19,6 +19,7 @@ import { POSTS } from '../data/content';
 import { photoSrc } from '../data/photos';
 import { isOpenNow, hoursSummary } from '../utils/clinic';
 import Icon from '../components/Icon';
+import FlipCard from '../components/FlipCard';
 import { SectionHeading, RatingBadge } from '../components/ui';
 import Counter from '../components/home/Counter';
 import ServicesCarousel from '../components/home/ServicesCarousel';
@@ -63,6 +64,9 @@ const HERO_ANIMATION = {
   },
 };
 
+/* One hue per card, cycled. Colour marks the card, it does not decorate it. */
+const WHY_TONES = ['coral', 'sky', 'mango', 'grape'];
+
 const WHY = [
   { icon: 'shield', t: 'home.why1T', b: 'home.why1B' },
   { icon: 'sparkle', t: 'home.why2T', b: 'home.why2B' },
@@ -105,13 +109,17 @@ function Hero() {
   return (
     <section
       ref={sectionRef}
-      className="relative isolate flex min-h-[calc(100dvh-var(--header-h))] flex-col justify-center overflow-hidden bg-gradient-to-b from-brand-50 via-paper to-accent-50/40"
+      className="wash relative isolate flex min-h-[calc(100dvh-var(--header-h))] flex-col justify-center overflow-hidden"
     >
       {/* Decorative background layers (parallax + fallback art) */}
       <div className="pointer-events-none absolute inset-0" aria-hidden>
-        <div className="absolute -left-32 top-0 h-80 w-80 rounded-full bg-brand-200/50 blur-3xl" data-parallax="0.2" />
-        <div className="absolute -bottom-24 right-0 h-96 w-96 rounded-full bg-accent-200/40 blur-3xl" data-parallax="0.3" />
-        <div className="absolute inset-0 grain opacity-40" />
+        {/* Four colour layers at different parallax depths. Each drifts on its own
+            long cycle, so the wash never repeats visibly. */}
+        <div className="blob -left-28 top-0 h-80 w-80 animate-drift bg-sky-300/60" data-parallax="0.2" data-depth="0.6" />
+        <div className="blob -bottom-28 right-0 h-96 w-96 animate-drift-slow bg-mango-300/55" data-parallax="0.3" data-depth="1" />
+        <div className="blob right-1/3 top-10 h-64 w-64 animate-drift bg-coral-300/45" data-parallax="0.38" data-depth="1.4" />
+        <div className="blob -left-10 bottom-1/4 h-56 w-56 animate-drift-slow bg-mint-300/50" data-parallax="0.26" data-depth="0.8" />
+        <div className="absolute inset-0 grain opacity-30" />
       </div>
 
       {/* 3D scene (or static art) sits behind the copy.
@@ -208,18 +216,22 @@ function Hero() {
 /* ------------------------------------------------------------------ */
 function Stats() {
   const { t, L } = useI18n();
+  const numbers = ['text-coral-600', 'text-sky-600', 'text-mango-600', 'text-grape-600'];
+  const bars = ['bg-coral-500', 'bg-sky-500', 'bg-mango-400', 'bg-grape-500'];
+
   return (
-    <section className="border-y border-line bg-white py-10 sm:py-12">
+    <section className="wash relative overflow-hidden py-12 sm:py-14">
       <div className="container-page">
-        <dl className="grid grid-cols-2 gap-y-8 sm:divide-x sm:divide-brand-100 lg:grid-cols-4">
+        <dl className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           {STATS.map((s, i) => (
             <div
               key={s.label.en}
-              className="px-2 text-center sm:px-6"
-              data-reveal
-              data-delay={i * 0.06}
+              className="relative overflow-hidden rounded-3xl border border-line bg-white/85 p-5 text-center shadow-soft backdrop-blur-sm sm:p-6"
+              data-reveal="3d"
+              data-delay={i * 0.07}
             >
-              <dd className="tabular text-4xl font-extrabold text-brand-800 sm:text-5xl">
+              <span className={`absolute inset-x-6 top-0 h-1 rounded-full ${bars[i % 4]}`} aria-hidden />
+              <dd className={`tabular mt-2 text-4xl font-extrabold sm:text-5xl ${numbers[i % 4]}`}>
                 <Counter value={s.value} suffix={s.suffix} decimals={s.decimals || 0} />
               </dd>
               <dt className="mx-auto mt-2 max-w-[18ch] text-[11px] font-bold uppercase leading-relaxed tracking-[0.12em] text-ink-mute sm:text-xs">
@@ -323,40 +335,30 @@ function WhyAndRating() {
   }, [reduced]);
 
   return (
-    <section ref={sectionRef} className="section relative overflow-hidden bg-sand">
-      <div
-        className="pointer-events-none absolute -right-40 top-1/4 h-96 w-96 rounded-full bg-brand-200/40 blur-3xl"
-        data-parallax="0.25"
-        aria-hidden
-      />
+    <section ref={sectionRef} className="section wash relative overflow-hidden">
+      <div className="blob -right-32 top-10 h-80 w-80 animate-drift bg-sky-300/50" data-parallax="0.25" aria-hidden />
+      <div className="blob -left-24 bottom-0 h-72 w-72 animate-drift-slow bg-coral-200/60" aria-hidden />
       <div className="container-page relative">
         <SectionHeading eyebrow={SITE.shortName} title={t('home.whyTitle')} sub={t('home.whySub')} />
 
-        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {WHY.map((item, i) => (
-            <article
-              key={item.t}
-              className="card card-hover relative overflow-hidden p-6"
-              data-reveal
-              data-delay={i * 0.07}
-              data-magnetic
-            >
-              <span className="tabular absolute right-5 top-4 text-[11px] font-extrabold tracking-[0.16em] text-brand-200">
-                0{i + 1}
-              </span>
-              <span className="grid h-12 w-12 place-items-center rounded-2xl bg-brand-50 text-brand-700 ring-1 ring-inset ring-brand-100">
-                <Icon name={item.icon} className="h-6 w-6" />
-              </span>
-              <h3 className="mt-5 text-lg">{t(item.t)}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-ink-mute">{t(item.b)}</p>
-            </article>
+            <div key={item.t} data-reveal="tilt-top" data-delay={i * 0.07}>
+              <FlipCard
+                index={`0${i + 1}`}
+                icon={item.icon}
+                title={t(item.t)}
+                body={t(item.b)}
+                tone={WHY_TONES[i % WHY_TONES.length]}
+              />
+            </div>
           ))}
         </div>
 
         {/* Aggregate rating (no individual testimonials — see /reviews) */}
         <div
-          className="mt-12 grid gap-8 rounded-4xl border border-line bg-white p-6 shadow-card sm:p-10 lg:grid-cols-[1fr_auto] lg:items-center"
-          data-reveal
+          className="mt-12 grid gap-8 overflow-hidden rounded-4xl border border-line bg-white p-6 shadow-card sm:p-10 lg:grid-cols-[1fr_auto] lg:items-center"
+          data-reveal="3d"
         >
           <div>
             <span className="eyebrow">
@@ -530,34 +532,55 @@ function BlogPreview() {
 function CtaBand() {
   const { t, lang } = useI18n();
   return (
-    <section className="relative overflow-hidden bg-brand-950 py-16 text-white sm:py-20">
-      <div
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(700px_300px_at_18%_0%,rgba(224,158,58,0.22),transparent_62%),radial-gradient(640px_320px_at_92%_100%,rgba(63,145,130,0.42),transparent_62%)]"
-        aria-hidden
-      />
-      <div className="container-page relative flex flex-col items-start gap-8 lg:flex-row lg:items-center lg:justify-between">
-        <div data-reveal="left">
-          {/* explicit white — the base h1–h4 rule (text-ink) beats inherited color */}
-          <h2 className="max-w-2xl title-lg text-white">{t('home.ctaTitle')}</h2>
-          <p className="mt-3 max-w-xl text-brand-100/80">{t('home.ctaSub')}</p>
-          <p className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-semibold text-brand-100/70">
-            <span className="tabular inline-flex items-center gap-2">
-              <Icon name="phone" className="h-4 w-4 text-accent-300" /> {PHONE_DISPLAY}
-            </span>
-            <span className="inline-flex items-center gap-2">
-              <Icon name="clock" className="h-4 w-4 text-accent-300" /> {t('common.daily')}{' '}
-              {hoursSummary(lang)}
-            </span>
-          </p>
-        </div>
-        <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row" data-reveal="right">
-          <Link to="/book" className="btn-light !px-7 !py-4 text-base" data-magnetic>
-            <Icon name="calendar" className="h-5 w-5" /> {t('common.bookNow')}
-          </Link>
-          <a href={waLink()} target="_blank" rel="noopener noreferrer" className="btn-outline-light !px-7 !py-4 text-base" data-magnetic>
-            <Icon name="whatsapp" className="h-5 w-5" fill="currentColor" strokeWidth={0} />
-            {t('common.whatsapp')}
-          </a>
+    <section className="relative overflow-hidden pb-20 pt-4 sm:pb-24">
+      <div className="container-page">
+        <div
+          className="wash wash-strong relative overflow-hidden rounded-[2.5rem] border border-line p-8 shadow-lift sm:p-12 lg:p-14"
+          data-reveal="3d"
+        >
+          <span className="rainbow-edge absolute inset-x-0 top-0 h-1.5" aria-hidden />
+          <div className="blob -right-16 -top-16 h-64 w-64 animate-drift bg-mango-300/60" aria-hidden />
+          <div className="blob -bottom-20 left-10 h-56 w-56 animate-drift-slow bg-grape-300/50" aria-hidden />
+
+          <div className="relative flex flex-col items-start gap-8 lg:flex-row lg:items-center lg:justify-between">
+            <div data-reveal="left" className="max-w-2xl">
+              <span className="eyebrow !border-white/70 !bg-white/80">
+                <span className="eyebrow-dot" aria-hidden />
+                {t('common.daily')}
+              </span>
+              <h2 className="mt-4 title-lg text-ink">{t('home.ctaTitle')}</h2>
+              <p className="mt-3 text-ink-soft">{t('home.ctaSub')}</p>
+              <p className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-semibold text-ink-soft">
+                <span className="tabular inline-flex items-center gap-2">
+                  <span className="grid h-7 w-7 place-items-center rounded-full bg-mango-100 text-mango-700">
+                    <Icon name="phone" className="h-3.5 w-3.5" />
+                  </span>
+                  {PHONE_DISPLAY}
+                </span>
+                <span className="inline-flex items-center gap-2">
+                  <span className="grid h-7 w-7 place-items-center rounded-full bg-sky-100 text-sky-700">
+                    <Icon name="clock" className="h-3.5 w-3.5" />
+                  </span>
+                  {t('common.daily')} {hoursSummary(lang)}
+                </span>
+              </p>
+            </div>
+            <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row" data-reveal="right">
+              <Link to="/book" className="btn-primary !px-7 !py-4 text-base" data-magnetic>
+                <Icon name="calendar" className="h-5 w-5" /> {t('common.bookNow')}
+              </Link>
+              <a
+                href={waLink()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn border border-mint-300 bg-white !px-7 !py-4 text-base text-mint-800 shadow-soft hover:border-mint-500 hover:bg-mint-50"
+                data-magnetic
+              >
+                <Icon name="whatsapp" className="h-5 w-5" fill="currentColor" strokeWidth={0} />
+                {t('common.whatsapp')}
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </section>
