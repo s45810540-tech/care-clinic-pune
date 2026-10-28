@@ -167,9 +167,9 @@ export default {
       backgroundImage: {
         // Bright, multi-stop washes used behind sections and cards.
         aurora:
-          'radial-gradient(60% 60% at 8% 0%, #DBEFFF 0%, transparent 60%), radial-gradient(50% 55% at 95% 8%, #FFE0DC 0%, transparent 62%), radial-gradient(55% 60% at 60% 100%, #D1FAE9 0%, transparent 60%), radial-gradient(45% 50% at 100% 90%, #FFEFC2 0%, transparent 60%)',
+          'radial-gradient(58% 58% at 6% 0%, rgba(143,205,255,0.62) 0%, transparent 62%), radial-gradient(50% 55% at 96% 6%, rgba(255,154,141,0.55) 0%, transparent 62%), radial-gradient(55% 60% at 62% 102%, rgba(107,230,186,0.5) 0%, transparent 62%), radial-gradient(46% 52% at 104% 92%, rgba(255,201,77,0.55) 0%, transparent 60%)',
         'aurora-strong':
-          'radial-gradient(55% 55% at 0% 10%, #8FCDFF 0%, transparent 60%), radial-gradient(45% 50% at 100% 0%, #FF9A8D 0%, transparent 58%), radial-gradient(50% 55% at 70% 100%, #6BE6BA 0%, transparent 58%), radial-gradient(45% 50% at 10% 95%, #FFC94D 0%, transparent 58%)',
+          'radial-gradient(55% 55% at 0% 6%, rgba(89,174,255,0.78) 0%, transparent 60%), radial-gradient(46% 50% at 100% 0%, rgba(255,116,102,0.62) 0%, transparent 58%), radial-gradient(52% 56% at 72% 100%, rgba(52,211,153,0.6) 0%, transparent 58%), radial-gradient(46% 50% at 8% 96%, rgba(255,176,32,0.65) 0%, transparent 58%)',
         'dots': 'radial-gradient(rgba(12,26,23,0.14) 1px, transparent 1px)',
         'grid-faint':
           'linear-gradient(to right, rgba(12,26,23,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(12,26,23,0.05) 1px, transparent 1px)',

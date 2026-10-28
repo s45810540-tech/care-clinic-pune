@@ -117,10 +117,10 @@ export default function Header() {
       {/* Spectrum crown: 3px of colour across the very top of every page. */}
       <div className="rainbow-edge h-[3px] w-full" aria-hidden />
       {/* Utility strip — emergency number, phone, rating, language. */}
-      <div className="bg-brand-950 text-white">
+      <div className="bg-gradient-to-r from-brand-900 via-grape-700 to-sky-700 text-white">
         <div className="container-page flex min-h-8 items-center justify-between gap-3 py-1 text-[11px] sm:text-xs">
           <p className="flex min-w-0 items-center gap-1.5 font-semibold">
-            <Icon name="info" className="h-3.5 w-3.5 shrink-0 text-accent-300" />
+            <Icon name="info" className="h-3.5 w-3.5 shrink-0 text-mango-300" />
             <span className="truncate">
               <span className="sm:hidden">Emergency? Call {EMERGENCY_NUMBER}</span>
               <span className="hidden sm:inline">{t('common.emergency')}</span>
@@ -135,7 +135,7 @@ export default function Header() {
               {PHONE_DISPLAY}
             </a>
             {RATING.value > 0 && (
-              <span className="hidden items-center gap-1 text-accent-300 lg:flex">
+              <span className="hidden items-center gap-1 text-mango-300 lg:flex">
                 <Icon name="star" className="h-3.5 w-3.5" fill="currentColor" strokeWidth={0} />
                 {RATING.value} · {RATING.count} {t('common.reviews')}
               </span>

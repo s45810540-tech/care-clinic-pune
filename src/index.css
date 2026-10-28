@@ -351,8 +351,8 @@
   .blob {
     position: absolute;
     border-radius: 9999px;
-    filter: blur(48px);
-    opacity: 0.55;
+    filter: blur(44px);
+    opacity: 0.72;
     pointer-events: none;
     will-change: transform;
   }
