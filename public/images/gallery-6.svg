@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="720" viewBox="0 0 960 720" role="img" aria-label="Clinic entrance, Keshav Nagar — placeholder image">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0d9488"/>
+      <stop offset="100%" stop-color="#042f2e"/>
+    </linearGradient>
+    <linearGradient id="sheen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.25)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+    </linearGradient>
+    <pattern id="dots" width="26" height="26" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.6" fill="rgba(255,255,255,0.16)"/>
+    </pattern>
+  </defs>
+  <rect width="960" height="720" fill="url(#bg)"/>
+  <rect width="960" height="720" fill="url(#dots)"/>
+  <rect width="960" height="720" fill="url(#sheen)"/>
+  
+      <rect x="115.19999999999999" y="216" width="729.6" height="396.00000000000006" rx="20" fill="rgba(255,255,255,0.28)"/>
+      <rect x="192" y="324" width="230.39999999999998" height="288" rx="12" fill="rgba(255,255,255,0.45)"/>
+      <rect x="528" y="324" width="230.39999999999998" height="144" rx="12" fill="rgba(255,255,255,0.5)"/>
+      <circle cx="787.1999999999999" cy="129.6" r="64.8" fill="#5eead4" opacity="0.85"/>
+  <rect x="0" y="518.4" width="960" height="201.60000000000002" fill="rgba(4,47,46,0.55)"/>
+  <text x="480" y="597.6" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="40" font-weight="700" fill="#ffffff">Clinic entrance, Keshav Nagar</text>
+  <text x="480" y="648" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="22" font-weight="600" letter-spacing="3" fill="rgba(255,255,255,0.72)">CLINIC PHOTO · PLACEHOLDER</text>
+</svg>

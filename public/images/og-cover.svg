@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Care Clinic for General Medicine &amp; Surgery — placeholder image">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#042f2e"/>
+      <stop offset="100%" stop-color="#0f766e"/>
+    </linearGradient>
+    <linearGradient id="sheen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.25)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+    </linearGradient>
+    <pattern id="dots" width="26" height="26" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.6" fill="rgba(255,255,255,0.16)"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#dots)"/>
+  <rect width="1200" height="630" fill="url(#sheen)"/>
+  
+      <circle cx="1032" cy="315" r="264.59999999999997" fill="rgba(255,255,255,0.08)"/>
+      <circle cx="120" cy="567" r="315" fill="rgba(255,255,255,0.06)"/>
+      <path d="M936 264.59999999999997 h40 v40 h-40 z M888 226.79999999999998 h120 v40 h-40 v40 h-40 v-40 h-40 z" fill="#f99b20" opacity="0.9"/>
+      <path d="M954 277.2 h14 v14 h-14 z M930 252 h54 v14 h-14 v14 h-14 v-14 h-14 z" fill="#ffffff" opacity="0.95"/>
+  
+  <text x="600" y="453.59999999999997" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="35" font-weight="700" fill="#ffffff">Care Clinic for General Medicine &amp; Surgery</text>
+  <text x="600" y="497.70000000000005" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="19" font-weight="600" letter-spacing="3" fill="rgba(255,255,255,0.72)">केअर क्लिनिक · KESHAV NAGAR, MUNDHWA, PUNE</text>
+</svg>

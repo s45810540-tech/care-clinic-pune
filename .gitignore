@@ -1,0 +1,15 @@
+node_modules
+dist
+.DS_Store
+*.local
+.vite
+npm-debug.log*
+*.log
+.env
+.env.*
+# Local verification output (screenshots + Lighthouse report)
+artifacts/
+lighthouse-report.json
+
+# Local build/packaging output
+care-clinic-website.zip

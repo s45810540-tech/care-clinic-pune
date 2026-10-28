@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="Care Clinic">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0d9488"/>
+      <stop offset="100%" stop-color="#115e59"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="16" fill="url(#g)"/>
+  <!-- Heart outline with a warm medical cross -->
+  <path d="M32 50s-15-9.3-15-19.7A8.4 8.4 0 0 1 32 25.6 8.4 8.4 0 0 1 47 30.3C47 40.7 32 50 32 50Z" fill="none" stroke="#ffffff" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M29.5 30h5v5h5v5h-5v5h-5v-5h-5v-5h5Z" fill="#f99b20"/>
+</svg>
