@@ -69,7 +69,7 @@ export default function CookieConsent() {
       role="dialog"
       aria-live="polite"
       aria-label={t('cookie.title')}
-      className="fixed inset-x-3 bottom-24 z-50 max-w-xl animate-fade-up rounded-3xl border border-line bg-white p-5 shadow-lift md:inset-x-auto md:bottom-6 md:left-6"
+      className="fixed inset-x-3 bottom-24 z-50 max-w-xl animate-fade-up md:max-w-[26rem] rounded-3xl border border-line bg-white p-5 shadow-lift md:inset-x-auto md:bottom-6 md:left-6"
     >
       <div className="flex items-start gap-3">
         <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-brand-50 text-brand-700">

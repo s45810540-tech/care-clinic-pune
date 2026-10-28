@@ -13,3 +13,4 @@ lighthouse-report.json
 
 # Local build/packaging output
 care-clinic-website.zip
+.vercel
