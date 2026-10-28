@@ -167,7 +167,7 @@ export default {
       backgroundImage: {
         // Bright, multi-stop washes used behind sections and cards.
         aurora:
-          'radial-gradient(58% 58% at 6% 0%, rgba(143,205,255,0.62) 0%, transparent 62%), radial-gradient(50% 55% at 96% 6%, rgba(255,154,141,0.55) 0%, transparent 62%), radial-gradient(55% 60% at 62% 102%, rgba(107,230,186,0.5) 0%, transparent 62%), radial-gradient(46% 52% at 104% 92%, rgba(255,201,77,0.55) 0%, transparent 60%)',
+          'radial-gradient(75% 42% at 50% 48%, rgba(219,239,255,0.85) 0%, transparent 72%), radial-gradient(58% 58% at 6% 0%, rgba(143,205,255,0.62) 0%, transparent 62%), radial-gradient(50% 55% at 96% 6%, rgba(255,154,141,0.55) 0%, transparent 62%), radial-gradient(55% 60% at 62% 102%, rgba(107,230,186,0.5) 0%, transparent 62%), radial-gradient(46% 52% at 104% 92%, rgba(255,201,77,0.55) 0%, transparent 60%)',
         'aurora-strong':
           'radial-gradient(55% 55% at 0% 6%, rgba(89,174,255,0.78) 0%, transparent 60%), radial-gradient(46% 50% at 100% 0%, rgba(255,116,102,0.62) 0%, transparent 58%), radial-gradient(52% 56% at 72% 100%, rgba(52,211,153,0.6) 0%, transparent 58%), radial-gradient(46% 50% at 8% 96%, rgba(255,176,32,0.65) 0%, transparent 58%)',
         'dots': 'radial-gradient(rgba(12,26,23,0.14) 1px, transparent 1px)',
