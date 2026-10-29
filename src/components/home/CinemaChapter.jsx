@@ -69,13 +69,13 @@ function HelixFallback() {
               y1={r.y}
               x2={r.x2}
               y2={r.y}
-              stroke={r.amber ? '#FF7A57' : '#8A72FB'}
+              stroke={r.amber ? '#B4EE1F' : '#88C0A0'}
               opacity={0.55}
             />
           ))}
         </g>
-        <path d={strand} fill="none" stroke="#AC9BFF" strokeWidth="7" strokeLinecap="round" />
-        <path d={mirror} fill="none" stroke="#6E4BF3" strokeWidth="7" strokeLinecap="round" />
+        <path d={strand} fill="none" stroke="#CAF94F" strokeWidth="7" strokeLinecap="round" />
+        <path d={mirror} fill="none" stroke="#2F835B" strokeWidth="7" strokeLinecap="round" />
       </svg>
     </div>
   );

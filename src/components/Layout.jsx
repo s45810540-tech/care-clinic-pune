@@ -8,10 +8,12 @@ import MagneticCursor from './MagneticCursor';
 import ScrollToTop from './ScrollToTop';
 import ScrollProgress from './ScrollProgress';
 import { useSmoothScroll } from '../hooks/useScroll';
+import useSpotlight from '../hooks/useSpotlight';
 
 export default function Layout() {
   // Lenis + GSAP ticker live for the whole session.
   useSmoothScroll();
+  useSpotlight();
   const { pathname } = useLocation();
 
   return (

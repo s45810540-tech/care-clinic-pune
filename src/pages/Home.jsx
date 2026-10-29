@@ -22,6 +22,7 @@ import Icon from '../components/Icon';
 import FlipCard from '../components/FlipCard';
 import TrustRibbon from '../components/TrustRibbon';
 import KineticTitle from '../components/KineticTitle';
+import DoctorPlate from '../components/DoctorPlate';
 import Ticker from '../components/Ticker';
 import { Sparkle, ConfettiDots, Squiggle, Cloud, Bloom } from '../components/Stickers';
 import { SectionHeading, RatingBadge } from '../components/ui';
@@ -271,23 +272,10 @@ function DoctorTeaser() {
       <div className="blob -right-28 top-10 h-80 w-80 animate-drift bg-sky-200/60" aria-hidden />
       <div className="container-page relative grid items-center gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1fr)] lg:gap-16">
         <div className="relative" data-reveal="left">
-          {/* Coloured plates behind the portrait, one step further back in Z. */}
-          <div className="absolute -left-4 -top-4 h-40 w-40 rotate-6 rounded-3xl bg-coral-200/80" aria-hidden />
-          <div className="absolute -bottom-5 -right-5 h-36 w-36 -rotate-6 rounded-3xl bg-grape-200/80" aria-hidden />
-          <Tilt max={6} className="relative overflow-hidden rounded-4xl border border-line shadow-lift">
-            <img
-              src={DOCTOR.photo}
-              alt={`${DOCTOR.name} — [PLACEHOLDER photograph]`}
-              width={800}
-              height={1000}
-              loading="lazy"
-              className="aspect-[4/5] w-full object-cover"
-            />
-            <div className="absolute inset-x-4 bottom-4 rounded-2xl border border-white/60 bg-white/92 px-4 py-3 shadow-soft backdrop-blur">
-              <p className="text-sm font-extrabold text-ink">{DOCTOR.name}</p>
-              <p className="mt-0.5 text-xs text-ink-mute">{L(DOCTOR.role)}</p>
-            </div>
-          </Tilt>
+          {/* Coloured plates behind the panel, one step further back in Z. */}
+          <div className="absolute -left-4 -top-4 h-40 w-40 rotate-6 rounded-3xl bg-accent-200/70" aria-hidden />
+          <div className="absolute -bottom-5 -right-5 h-36 w-36 -rotate-6 rounded-3xl bg-coral-200/70" aria-hidden />
+          <DoctorPlate doctor={DOCTOR} className="relative" />
         </div>
 
         <div data-reveal="right">
@@ -551,10 +539,8 @@ function CtaBand() {
   return (
     <section className="relative overflow-hidden pb-20 pt-4 sm:pb-24">
       <div className="container-page">
-        <div
-          className="wash wash-strong relative overflow-hidden rounded-[2.5rem] border border-line p-8 shadow-lift sm:p-12 lg:p-14"
-          data-reveal="3d"
-        >
+        <div className="sheen relative rounded-[2.5rem]" data-reveal="3d">
+        <div className="wash wash-strong relative z-10 overflow-hidden rounded-[2.5rem] border border-line p-8 shadow-lift sm:p-12 lg:p-14">
           <span className="rainbow-edge absolute inset-x-0 top-0 h-1.5" aria-hidden />
           <div className="blob -right-16 -top-16 h-64 w-64 animate-drift bg-mango-300/60" aria-hidden />
           <div className="blob -bottom-20 left-10 h-56 w-56 animate-drift-slow bg-grape-300/50" aria-hidden />
@@ -600,6 +586,7 @@ function CtaBand() {
               </a>
             </div>
           </div>
+        </div>
         </div>
       </div>
     </section>

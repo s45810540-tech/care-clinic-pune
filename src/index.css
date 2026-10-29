@@ -10,7 +10,7 @@
 :root {
   --header-h: 96px;
   --page-x: 1.25rem;
-  --hairline: 1px solid #e4e6f1;
+  --hairline: 1px solid #E8E3D6;
 }
 
 @media (min-width: 640px) {
@@ -66,7 +66,7 @@
   /* Visible, high-contrast focus ring for keyboard users (WCAG 2.4.7).
      Phones/touch never see it, so it costs nothing there. */
   :focus-visible {
-    outline: 3px solid #5A32DC;
+    outline: 3px solid #1F6A49;
     outline-offset: 2px;
     border-radius: 8px;
   }
@@ -382,6 +382,36 @@
   .cinema-stack { display: grid; }
   .cinema-stack > * { grid-area: 1 / 1; }
 
+  /* ---- Pointer spotlight ------------------------------------------ */
+  /* One shared listener moves --mx/--my; the glow is a pseudo-element, so no
+     extra DOM and nothing repaints outside the hovered card. */
+  .spotlight {
+    position: relative;
+    /* isolate keeps the glow above the card's own fill but under its content,
+       without forcing z-index on every child. */
+    isolation: isolate;
+  }
+  .spotlight::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: radial-gradient(
+      260px circle at var(--mx, 50%) var(--my, 0%),
+      rgba(180, 238, 31, 0.28),
+      rgba(180, 238, 31, 0.06) 45%,
+      transparent 70%
+    );
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+  }
+  .spotlight:hover::before { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) {
+    .spotlight::before { display: none; }
+  }
+
   /* ---- Kinetic type ---------------------------------------------- */
   /* Each word rises out of its own mask on load, then lifts on hover. */
   .kinetic-word-wrap {
@@ -411,7 +441,7 @@
     overflow: hidden;
     padding-block: 0.9rem;
     border-block: 1px solid theme('colors.line');
-    background: linear-gradient(90deg, #FFFFFF 0%, #F5F6FC 50%, #FFFFFF 100%);
+    background: linear-gradient(90deg, #FFFFFF 0%, #FAF7F0 50%, #FFFFFF 100%);
   }
   .ticker-track {
     display: flex;
@@ -594,13 +624,13 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  color: #0A1224;
+  color: #0D1512;
   opacity: 1;
   transition: opacity 0.32s ease;
   background:
     radial-gradient(760px 380px at 8% -10%, rgba(63, 145, 130, 0.16), transparent 70%),
     radial-gradient(700px 420px at 95% 105%, rgba(224, 158, 58, 0.14), transparent 70%),
-    linear-gradient(180deg, #F7F5FF 0%, #FBFAFF 60%, #ffffff 100%);
+    linear-gradient(180deg, #F3F8F1 0%, #FCFAF5 60%, #ffffff 100%);
 }
 .boot--gone {
   opacity: 0;
@@ -622,7 +652,7 @@
   width: 2rem;
   height: 2rem;
   border-radius: 0.7rem;
-  background: #4A22B8;
+  background: #18553B;
   color: #fff;
   font-weight: 800;
   font-size: 1.05rem;
@@ -634,7 +664,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  color: #5A32DC;
+  color: #1F6A49;
 }
 .boot__emg { color: #AB3016; font-weight: 700; }
 .boot__hero {
@@ -652,7 +682,7 @@
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.18em;
-  color: #5A32DC;
+  color: #1F6A49;
 }
 .boot__h1 {
   margin: 0;
@@ -667,7 +697,7 @@
   max-width: 46ch;
   font-size: clamp(1rem, 1.5vw, 1.18rem);
   line-height: 1.6;
-  color: #57647F;
+  color: #56645C;
 }
 .boot__cta { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 0.5rem 0 0; }
 .boot__btn {
@@ -680,9 +710,9 @@
   font-size: 1rem;
   text-decoration: none;
 }
-.boot__btn--primary { background: #4A22B8; color: #fff; box-shadow: 0 14px 34px -16px rgba(36, 95, 86, 0.62); }
-.boot__btn--ghost { border: 1px solid rgba(10, 18, 36, 0.14); color: #311A76; background: #fff; }
-.boot__note { margin: 0.25rem 0 0; font-size: 0.85rem; color: #57647F; }
+.boot__btn--primary { background: #18553B; color: #fff; box-shadow: 0 14px 34px -16px rgba(36, 95, 86, 0.62); }
+.boot__btn--ghost { border: 1px solid rgba(13, 21, 18, 0.14); color: #103627; background: #fff; }
+.boot__note { margin: 0.25rem 0 0; font-size: 0.85rem; color: #56645C; }
 @media (max-width: 640px) {
   .boot__emg { display: none; }
   .boot__cta { flex-direction: column; align-items: stretch; }
@@ -725,14 +755,47 @@
 .aurora-live {
   background-color: #fff;
   background-image:
-    radial-gradient(60% 55% at 8% 0%, rgba(172, 155, 255, 0.55) 0%, transparent 62%),
-    radial-gradient(55% 50% at 96% 6%, rgba(255, 194, 176, 0.55) 0%, transparent 62%),
-    radial-gradient(60% 55% at 70% 100%, rgba(167, 243, 208, 0.5) 0%, transparent 64%),
-    radial-gradient(50% 50% at 20% 92%, rgba(255, 224, 130, 0.45) 0%, transparent 64%);
+    radial-gradient(60% 55% at 8% 0%, rgba(180, 238, 31, 0.34) 0%, transparent 62%),
+    radial-gradient(55% 50% at 96% 6%, rgba(255, 172, 133, 0.5) 0%, transparent 62%),
+    radial-gradient(60% 55% at 70% 100%, rgba(136, 192, 160, 0.5) 0%, transparent 64%),
+    radial-gradient(50% 50% at 20% 92%, rgba(255, 224, 138, 0.42) 0%, transparent 64%);
   background-size: 180% 180%;
   background-repeat: no-repeat;
   animation: aurora-shift 32s ease-in-out infinite;
 }
 @media (prefers-reduced-motion: reduce) {
   .aurora-live { animation: none; background-size: 100% 100%; }
+}
+
+/* ------------------------------------------------------------------ */
+/* Slow conic glow behind a featured card (closing CTA).               */
+/* Decorative: the card itself sits above it on z-10.                  */
+/* ------------------------------------------------------------------ */
+.sheen {
+  isolation: isolate;
+}
+.sheen::before {
+  content: '';
+  position: absolute;
+  inset: -14px;
+  z-index: 0;
+  border-radius: 3rem;
+  background: conic-gradient(
+    from 0deg,
+    rgba(180, 238, 31, 0.85),
+    rgba(85, 160, 119, 0.7),
+    rgba(255, 172, 133, 0.8),
+    rgba(255, 206, 79, 0.75),
+    rgba(180, 238, 31, 0.85)
+  );
+  filter: blur(26px);
+  opacity: 0.4;
+  animation: sheen-spin 18s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sheen::before { animation: none; opacity: 0.28; }
+}
+@keyframes sheen-spin {
+  from { transform: rotate(0deg) scale(1.02); }
+  to { transform: rotate(360deg) scale(1.02); }
 }

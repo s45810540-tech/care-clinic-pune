@@ -40,16 +40,16 @@ export default function HeroFallback() {
       >
         <defs>
           <linearGradient id="tube" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#4A22B8" />
-            <stop offset="100%" stopColor="#1B0F49" />
+            <stop offset="0%" stopColor="#18553B" />
+            <stop offset="100%" stopColor="#061F17" />
           </linearGradient>
           <linearGradient id="metal" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="#ffffff" />
-            <stop offset="100%" stopColor="#DCD3FF" />
+            <stop offset="100%" stopColor="#E7F2E9" />
           </linearGradient>
           <radialGradient id="glow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#FF7A57" stopOpacity="0.9" />
-            <stop offset="100%" stopColor="#FF7A57" stopOpacity="0" />
+            <stop offset="0%" stopColor="#B4EE1F" stopOpacity="0.9" />
+            <stop offset="100%" stopColor="#B4EE1F" stopOpacity="0" />
           </radialGradient>
         </defs>
 
@@ -71,13 +71,13 @@ export default function HeroFallback() {
           strokeLinecap="round"
         />
         {/* Ear tips */}
-        <circle cx="120" cy="66" r="17" fill="url(#metal)" stroke="#4A22B8" strokeWidth="5" />
-        <circle cx="280" cy="66" r="17" fill="url(#metal)" stroke="#4A22B8" strokeWidth="5" />
+        <circle cx="120" cy="66" r="17" fill="url(#metal)" stroke="#18553B" strokeWidth="5" />
+        <circle cx="280" cy="66" r="17" fill="url(#metal)" stroke="#18553B" strokeWidth="5" />
         {/* Chest piece */}
         <g transform="translate(214 392)">
-          <circle r="54" fill="url(#metal)" stroke="#4A22B8" strokeWidth="7" />
-          <circle r="40" fill="#f7fbfb" stroke="#FF7A57" strokeWidth="6" />
-          <circle r="12" fill="#4A22B8" opacity="0.25" />
+          <circle r="54" fill="url(#metal)" stroke="#18553B" strokeWidth="7" />
+          <circle r="40" fill="#f7fbfb" stroke="#B4EE1F" strokeWidth="6" />
+          <circle r="12" fill="#18553B" opacity="0.25" />
         </g>
       </svg>
     </div>

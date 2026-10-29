@@ -77,7 +77,7 @@ function Helix({ progressRef }) {
   const strandB = useMemo(() => strandGeometry(Math.PI), []);
   const rungGeo = useMemo(() => new THREE.CylinderGeometry(0.03, 0.03, 1, 8), []);
   const strandMat = useMemo(
-    () => new THREE.MeshStandardMaterial({ color: '#3C1D94', metalness: 0.45, roughness: 0.3 }),
+    () => new THREE.MeshStandardMaterial({ color: '#144430', metalness: 0.45, roughness: 0.3 }),
     []
   );
   const rungMat = useMemo(
@@ -89,8 +89,8 @@ function Helix({ progressRef }) {
   useEffect(() => {
     const mesh = rungs.current;
     if (!mesh) return;
-    const teal = new THREE.Color('#AC9BFF');
-    const amberC = new THREE.Color('#FF7A57');
+    const teal = new THREE.Color('#CAF94F');
+    const amberC = new THREE.Color('#B4EE1F');
     for (let i = 0; i < RUNGS; i += 1) mesh.setColorAt(i, i % 4 === 3 ? amberC : teal);
     if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
   }, []);
@@ -208,7 +208,7 @@ function Motes({ count = 55 }) {
       <bufferGeometry>
         <bufferAttribute attach="attributes-position" args={[positions, 3]} />
       </bufferGeometry>
-      <pointsMaterial size={0.05} color="#AC9BFF" transparent opacity={0.6} sizeAttenuation />
+      <pointsMaterial size={0.05} color="#CAF94F" transparent opacity={0.6} sizeAttenuation />
     </points>
   );
 }
@@ -231,8 +231,8 @@ export default function Helix3D({ progressRef }) {
           <GradientEnvironment />
           <ambientLight intensity={0.65} />
           <directionalLight position={[3, 6, 5]} intensity={1.4} color="#ffffff" />
-          <pointLight position={[-4, -2, 4]} intensity={20} color="#6E4BF3" />
-          <pointLight position={[4, 2, -3]} intensity={8} color="#FF7A57" />
+          <pointLight position={[-4, -2, 4]} intensity={20} color="#2F835B" />
+          <pointLight position={[4, 2, -3]} intensity={8} color="#B4EE1F" />
           <HelixCamera progressRef={progressRef} />
           <Helix progressRef={progressRef} />
           <Motes />

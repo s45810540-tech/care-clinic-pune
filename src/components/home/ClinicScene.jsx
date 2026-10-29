@@ -170,8 +170,9 @@ export default function ClinicScene() {
                 <Tilt max={7} scale={1.02} className="h-full rounded-3xl">
                   <Link
                     to="/gallery"
-                    className="group relative block h-full overflow-hidden rounded-3xl border border-line bg-white p-2 shadow-lift
-                               transition-shadow duration-300 hover:shadow-[0_36px_80px_-40px_rgba(12,26,23,0.55)]"
+                    data-spotlight
+                    className="spotlight group relative block h-full overflow-hidden rounded-3xl border border-line bg-white p-2 shadow-lift
+                               transition duration-500 ease-spring hover:-rotate-1 hover:shadow-[0_36px_80px_-40px_rgba(6,31,23,0.55)]"
                     aria-label={`${L(card.caption)} — ${t('common.viewAll')}`}
                   >
                     <img

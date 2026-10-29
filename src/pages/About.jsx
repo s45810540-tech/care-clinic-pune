@@ -6,6 +6,7 @@ import { DOCTORS, DOCTOR, PHONE_DISPLAY, PHONE_TEL, waLink } from '../data/site'
 import { Link } from 'react-router-dom';
 import Icon from '../components/Icon';
 import Tilt from '../components/Tilt';
+import DoctorPlate from '../components/DoctorPlate';
 import { photoSrc } from '../data/photos';
 import { GALLERY } from '../data/content';
 
@@ -36,18 +37,7 @@ export default function About() {
       <section className="container-page section">
         <div className="grid items-start gap-10 lg:grid-cols-[0.85fr_1.1fr] lg:gap-16">
           <div data-reveal="left">
-            <Tilt max={7} className="overflow-hidden rounded-4xl border border-line shadow-lift">
-              <img
-                src={DOCTOR.photo}
-                alt={`${DOCTOR.name} — [PLACEHOLDER: replace with the clinic's real photograph]`}
-                width={800}
-                height={1000}
-                className="aspect-[4/5] w-full object-cover"
-              />
-            </Tilt>
-            <p className="mt-3 flex flex-wrap items-center gap-1 text-xs text-ink-mute">
-              <PlaceholderTag>Client photo</PlaceholderTag>
-            </p>
+            <DoctorPlate doctor={DOCTOR} />
           </div>
 
           <div data-reveal="right">

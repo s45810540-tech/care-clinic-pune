@@ -169,7 +169,8 @@ export default function ServicesCarousel() {
               key={s.slug}
               data-magnetic
               data-card3d
-              className={`group relative w-[78vw] max-w-[330px] shrink-0 snap-center overflow-hidden rounded-3xl border border-line bg-white p-6 shadow-card transition-[border-color,box-shadow] duration-300 will-change-transform hover:border-brand-300 hover:shadow-lift sm:w-[330px] lg:w-[352px] ${TILE_BARS[i % TILE_BARS.length]}`}
+              data-spotlight
+              className={`spotlight group relative w-[78vw] max-w-[330px] shrink-0 snap-center overflow-hidden rounded-3xl border border-line bg-white p-6 shadow-card transition-[border-color,box-shadow] duration-300 will-change-transform hover:border-brand-300 hover:shadow-lift sm:w-[330px] lg:w-[352px] ${TILE_BARS[i % TILE_BARS.length]}`}
               data-reveal="up"
               data-delay={Math.min(i * 0.05, 0.25)}
             >

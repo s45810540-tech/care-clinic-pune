@@ -5,46 +5,46 @@ export default {
     extend: {
       colors: {
         /*
-         * ELECTRIC INDIGO primary. Deep enough to carry white text, saturated
-         * enough to feel contemporary on a medical site, and nowhere near the
-         * teal-everywhere default that made the old build look dated.
+         * FOREST + LIME. Deep forest green carries the trust a clinic needs;
+         * chartreuse lime is the jolt of personality on top. Warm paper
+         * surfaces keep it editorial rather than clinical.
          *
          * Contrast notes (WCAG 2.2 AA, checked):
-         *   white on brand-600 ≈ 6.2:1      white on brand-700 ≈ 8.4:1
-         *   white on brand-900 ≈ 12.6:1     ink on brand-100   ≈ 15.4:1
-         *   ink on accent-400  ≈ 7.2:1      ink-mute on white  ≈ 5.4:1
+         *   white on brand-600 ≈ 5.9:1      white on brand-700 ≈ 8.1:1
+         *   white on brand-900 ≈ 12.8:1     ink on brand-100   ≈ 15.1:1
+         *   ink on accent-400  ≈ 12.6:1     ink-mute on white  ≈ 6.1:1
          */
         brand: {
-          50: '#F2F0FF',
-          100: '#E5E0FF',
-          200: '#CCC3FF',
-          300: '#AC9BFF',
-          400: '#8A72FB',
-          500: '#6E4BF3',
-          600: '#5A32DC',
-          700: '#4A22B8',
-          800: '#3C1D94',
-          900: '#311A76',
-          950: '#1B0E45',
+          50: '#F0F7F2',
+          100: '#DBEDE1',
+          200: '#B7DAC5',
+          300: '#88C0A0',
+          400: '#55A077',
+          500: '#2F835B',
+          600: '#1F6A49',
+          700: '#18553B',
+          800: '#144430',
+          900: '#103627',
+          950: '#061F17',
         },
-        // Coral accent — actions, stars, "open now" warmth against the indigo.
+        // Chartreuse accent. Always paired with ink, never white text.
         accent: {
-          50: '#FFF3EF',
-          100: '#FFE2D9',
-          200: '#FFC2B0',
-          300: '#FF9C82',
-          400: '#FF7A57',
-          500: '#F2572F',
-          600: '#D33E1C',
-          700: '#AB3016',
-          800: '#872815',
-          900: '#6D2314',
+          50: '#F7FFE8',
+          100: '#ECFFC4',
+          200: '#DCFF8A',
+          300: '#CAF94F',
+          400: '#B4EE1F',
+          500: '#9AD400',
+          600: '#7BAF00',
+          700: '#5E8700',
+          800: '#4A6B00',
+          900: '#3C5700',
         },
-        // Navy ink instead of green-black: crisper on cool surfaces.
+        // Charcoal ink, warm-neutral rather than blue-black.
         ink: {
-          DEFAULT: '#0A1224',
-          soft: '#1E2A44',
-          mute: '#57647F',
+          DEFAULT: '#0D1512',
+          soft: '#1D2A24',
+          mute: '#56645C',
         },
         /*
          * Bright secondary palette. These are used as *categories*, not decoration:
@@ -52,34 +52,34 @@ export default {
          * colourful page readable instead of rainbow soup.
          */
         coral: {
-          50: '#FFF1F0', 100: '#FFE0DC', 200: '#FFC2BA', 300: '#FF9A8D',
-          400: '#FF7466', 500: '#F2503E', 600: '#D6392A', 700: '#B02C22',
-          800: '#8C241D', 900: '#6E1E19',
+          50: '#FFF4EC', 100: '#FFE6D5', 200: '#FFCBAE', 300: '#FFAC85',
+          400: '#FF8E5A', 500: '#F9703A', 600: '#DB5726', 700: '#B4451E',
+          800: '#8F3819', 900: '#743016',
         },
         mango: {
-          50: '#FFF8E6', 100: '#FFEFC2', 200: '#FFDE8A', 300: '#FFC94D',
-          400: '#FFB020', 500: '#EF9700', 600: '#CC7A00', 700: '#A05F02',
-          800: '#7D4B06', 900: '#663D08',
+          50: '#FFF9E8', 100: '#FFF0C2', 200: '#FFE08A', 300: '#FFCE4F',
+          400: '#F7B81F', 500: '#DF9E0A', 600: '#BA8006', 700: '#936306',
+          800: '#744E08', 900: '#5E4008',
         },
         sky: {
-          50: '#EFF8FF', 100: '#DBEFFF', 200: '#BEE2FF', 300: '#8FCDFF',
-          400: '#59AEFF', 500: '#2E8FFF', 600: '#1B72E8', 700: '#1A5BBF',
-          800: '#1B4C99', 900: '#1B417D',
+          50: '#EFF7FF', 100: '#DCEEFF', 200: '#B9DCFF', 300: '#8AC4FF',
+          400: '#55A6F7', 500: '#2E88E4', 600: '#1B6CBF', 700: '#175699',
+          800: '#15477D', 900: '#143C69',
         },
         grape: {
-          50: '#F5F2FF', 100: '#EDE7FF', 200: '#DCD2FF', 300: '#C2ADFF',
-          400: '#A57EFF', 500: '#8B57F5', 600: '#7B3BE4', 700: '#682CBF',
-          800: '#56269C', 900: '#48227F',
+          50: '#F8F2FB', 100: '#EFE2F6', 200: '#DEC4EC', 300: '#C79BDD',
+          400: '#AE70C9', 500: '#954FB2', 600: '#7C3D97', 700: '#65327B',
+          800: '#532B65', 900: '#462657',
         },
         mint: {
-          50: '#ECFDF6', 100: '#D1FAE9', 200: '#A6F3D4', 300: '#6BE6BA',
-          400: '#34D399', 500: '#14B981', 600: '#089167', 700: '#077755',
-          800: '#085F46', 900: '#084E3B',
+          50: '#EDFBF5', 100: '#D3F6E8', 200: '#A8ECD2', 300: '#6FD9B4',
+          400: '#3BBE93', 500: '#1FA17A', 600: '#158066', 700: '#146754',
+          800: '#145446', 900: '#12463B',
         },
         // Surface neutrals — bright and cool, so the colour does the talking.
-        sand: '#F5F6FC',
+        sand: '#FAF7F0',
         paper: '#FFFFFF',
-        line: '#E4E6F1',
+        line: '#E8E3D6',
       },
       fontFamily: {
         sans: [
