@@ -253,8 +253,8 @@ function LightGrade({ progressRef, anim }) {
     <>
       <ambientLight intensity={0.75} />
       <directionalLight ref={key} position={[4, 6, 6]} intensity={1.6} color="#ffffff" />
-      <pointLight ref={teal} position={[-5, -2, 4]} intensity={22} color="#14b8a6" />
-      <pointLight ref={amber} position={[5, 3, -3]} intensity={16} color="#f99b20" />
+      <pointLight ref={teal} position={[-5, -2, 4]} intensity={22} color="#6E4BF3" />
+      <pointLight ref={amber} position={[5, 3, -3]} intensity={16} color="#FF7A57" />
     </>
   );
 }
@@ -281,19 +281,19 @@ function Stethoscope({ progressRef, anim }) {
   }, []);
 
   const rubber = useMemo(
-    () => new THREE.MeshStandardMaterial({ color: '#0d5f58', metalness: 0.35, roughness: 0.35 }),
+    () => new THREE.MeshStandardMaterial({ color: '#311A76', metalness: 0.35, roughness: 0.35 }),
     []
   );
   const chrome = useMemo(
-    () => new THREE.MeshStandardMaterial({ color: '#e9f2f1', metalness: 1, roughness: 0.16 }),
+    () => new THREE.MeshStandardMaterial({ color: '#EDE9FF', metalness: 1, roughness: 0.16 }),
     []
   );
   const diaphragm = useMemo(
-    () => new THREE.MeshStandardMaterial({ color: '#f7fbfb', metalness: 0.2, roughness: 0.6 }),
+    () => new THREE.MeshStandardMaterial({ color: '#F5F3FF', metalness: 0.2, roughness: 0.6 }),
     []
   );
   const gold = useMemo(
-    () => new THREE.MeshStandardMaterial({ color: '#f99b20', metalness: 0.9, roughness: 0.28 }),
+    () => new THREE.MeshStandardMaterial({ color: '#FF7A57', metalness: 0.9, roughness: 0.28 }),
     []
   );
 
@@ -395,7 +395,7 @@ function Particles({ progressRef, count = 70 }) {
       <bufferGeometry>
         <bufferAttribute attach="attributes-position" args={[positions, 3]} />
       </bufferGeometry>
-      <pointsMaterial size={0.055} color="#f99b20" transparent opacity={0.75} sizeAttenuation />
+      <pointsMaterial size={0.055} color="#FF7A57" transparent opacity={0.75} sizeAttenuation />
     </points>
   );
 }

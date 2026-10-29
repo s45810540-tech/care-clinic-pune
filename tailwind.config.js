@@ -5,47 +5,46 @@ export default {
     extend: {
       colors: {
         /*
-         * One brand hue, one warm accent, three neutrals. Everything else in the
-         * UI is mixed from these — no per-card rainbow, which is what kept the
-         * old palette from reading as a single confident brand.
+         * ELECTRIC INDIGO primary. Deep enough to carry white text, saturated
+         * enough to feel contemporary on a medical site, and nowhere near the
+         * teal-everywhere default that made the old build look dated.
          *
          * Contrast notes (WCAG 2.2 AA, checked):
-         *   white on brand-700  ≈ 8.0:1     ink on brand-100  ≈ 14:1
-         *   white on brand-900  ≈ 12.1:1    ink on accent-300 ≈ 9.4:1
-         *   ink on accent-500   ≈ 7.6:1     ink-mute on white ≈ 5.9:1
+         *   white on brand-600 ≈ 6.2:1      white on brand-700 ≈ 8.4:1
+         *   white on brand-900 ≈ 12.6:1     ink on brand-100   ≈ 15.4:1
+         *   ink on accent-400  ≈ 7.2:1      ink-mute on white  ≈ 5.4:1
          */
         brand: {
-          50: '#F2F9F7',
-          100: '#E0F0EC',
-          200: '#C2E2DA',
-          300: '#96CCC0',
-          400: '#63AFA0',
-          500: '#3F9182',
-          600: '#2C776A',
-          700: '#245F56',
-          800: '#1F4C46',
-          900: '#1B3E39',
-          950: '#0A2320',
+          50: '#F2F0FF',
+          100: '#E5E0FF',
+          200: '#CCC3FF',
+          300: '#AC9BFF',
+          400: '#8A72FB',
+          500: '#6E4BF3',
+          600: '#5A32DC',
+          700: '#4A22B8',
+          800: '#3C1D94',
+          900: '#311A76',
+          950: '#1B0E45',
         },
-        // Warm accent — highlights, "open now", star rating. Sits opposite the teal
-        // on the wheel, so a little of it goes a long way.
+        // Coral accent — actions, stars, "open now" warmth against the indigo.
         accent: {
-          50: '#FDF7EC',
-          100: '#FAEBCF',
-          200: '#F4D69C',
-          300: '#EBB965',
-          400: '#E09E3A',
-          500: '#C9821F',
-          600: '#A96816',
-          700: '#855017',
-          800: '#6B4118',
-          900: '#583616',
+          50: '#FFF3EF',
+          100: '#FFE2D9',
+          200: '#FFC2B0',
+          300: '#FF9C82',
+          400: '#FF7A57',
+          500: '#F2572F',
+          600: '#D33E1C',
+          700: '#AB3016',
+          800: '#872815',
+          900: '#6D2314',
         },
-        // Deep ink for headings (near-black with a green cast, AA on white).
+        // Navy ink instead of green-black: crisper on cool surfaces.
         ink: {
-          DEFAULT: '#0C1A17',
-          soft: '#23332F',
-          mute: '#55655F',
+          DEFAULT: '#0A1224',
+          soft: '#1E2A44',
+          mute: '#57647F',
         },
         /*
          * Bright secondary palette. These are used as *categories*, not decoration:
@@ -78,9 +77,9 @@ export default {
           800: '#085F46', 900: '#084E3B',
         },
         // Surface neutrals — bright and cool, so the colour does the talking.
-        sand: '#F2F6FB',
+        sand: '#F5F6FC',
         paper: '#FFFFFF',
-        line: '#E3EAF3',
+        line: '#E4E6F1',
       },
       fontFamily: {
         sans: [

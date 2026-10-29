@@ -10,7 +10,7 @@
 :root {
   --header-h: 96px;
   --page-x: 1.25rem;
-  --hairline: 1px solid #e6ebe8;
+  --hairline: 1px solid #e4e6f1;
 }
 
 @media (min-width: 640px) {
@@ -62,7 +62,7 @@
   /* Visible, high-contrast focus ring for keyboard users (WCAG 2.4.7).
      Phones/touch never see it, so it costs nothing there. */
   :focus-visible {
-    outline: 3px solid #2c776a;
+    outline: 3px solid #5A32DC;
     outline-offset: 2px;
     border-radius: 8px;
   }
@@ -141,6 +141,22 @@
   }
 
   .btn-sm { @apply px-4 py-2 text-[13px]; }
+
+  /* Light sweep across filled buttons on hover — reads as depth, not novelty. */
+  .btn-primary, .btn-accent, .btn-dark { position: relative; overflow: hidden; }
+  .btn-primary::after, .btn-accent::after, .btn-dark::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.36) 50%, transparent 65%);
+    transform: translateX(-120%);
+    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    pointer-events: none;
+  }
+  .btn-primary:hover::after, .btn-accent:hover::after, .btn-dark:hover::after { transform: translateX(120%); }
+  @media (prefers-reduced-motion: reduce) {
+    .btn-primary::after, .btn-accent::after, .btn-dark::after { display: none; }
+  }
 
   /* ---- Surfaces -------------------------------------------------- */
   .card {
@@ -362,6 +378,68 @@
   .cinema-stack { display: grid; }
   .cinema-stack > * { grid-area: 1 / 1; }
 
+  /* ---- Kinetic type ---------------------------------------------- */
+  /* Each word rises out of its own mask on load, then lifts on hover. */
+  .kinetic-word-wrap {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+    padding-bottom: 0.08em;
+    margin-bottom: -0.08em;
+  }
+  .kinetic-word {
+    display: inline-block;
+    animation: word-rise 0.95s cubic-bezier(0.22, 1.2, 0.36, 1) both;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.3s ease;
+    will-change: transform;
+  }
+  .kinetic-word:hover {
+    transform: translateY(-4px) rotate(-1.2deg);
+    color: var(--tw-prose, theme('colors.brand.700'));
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .kinetic-word { animation: none; transition: none; }
+    .kinetic-word:hover { transform: none; }
+  }
+
+  /* Oversized kinetic band (components/Ticker.jsx). */
+  .ticker {
+    overflow: hidden;
+    padding-block: 0.9rem;
+    border-block: 1px solid theme('colors.line');
+    background: linear-gradient(90deg, #FFFFFF 0%, #F5F6FC 50%, #FFFFFF 100%);
+  }
+  .ticker-track {
+    display: flex;
+    width: max-content;
+    animation: ticker 46s linear infinite;
+  }
+  .ticker-track--reverse { animation-direction: reverse; }
+  .ticker:hover .ticker-track { animation-play-state: paused; }
+  .ticker-word {
+    font-family: theme('fontFamily.display');
+    font-weight: 800;
+    font-size: clamp(1.5rem, 4vw, 3rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: transparent;
+    -webkit-text-stroke: 1.4px theme('colors.brand.300');
+    white-space: nowrap;
+    padding-inline: 0.5rem;
+  }
+  .ticker-dot {
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 999px;
+    background: theme('colors.accent.400');
+    flex: none;
+    margin-inline: 1.1rem;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ticker-track { animation: none; width: auto; flex-wrap: wrap; justify-content: center; }
+    .ticker-word { -webkit-text-stroke: 1.2px theme('colors.brand.500'); }
+  }
+
   /* ---- Playful, but controlled ----------------------------------- */
   /* Endless ribbon: two identical halves translated by -50%. Pauses on hover so
      nothing moves away from someone trying to read it. */
@@ -512,13 +590,13 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  color: #0c1a17;
+  color: #0A1224;
   opacity: 1;
   transition: opacity 0.32s ease;
   background:
     radial-gradient(760px 380px at 8% -10%, rgba(63, 145, 130, 0.16), transparent 70%),
     radial-gradient(700px 420px at 95% 105%, rgba(224, 158, 58, 0.14), transparent 70%),
-    linear-gradient(180deg, #f7fbfa 0%, #fcfbf8 60%, #ffffff 100%);
+    linear-gradient(180deg, #F7F5FF 0%, #FBFAFF 60%, #ffffff 100%);
 }
 .boot--gone {
   opacity: 0;
@@ -540,7 +618,7 @@
   width: 2rem;
   height: 2rem;
   border-radius: 0.7rem;
-  background: #245f56;
+  background: #4A22B8;
   color: #fff;
   font-weight: 800;
   font-size: 1.05rem;
@@ -552,9 +630,9 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  color: #2c776a;
+  color: #5A32DC;
 }
-.boot__emg { color: #855017; font-weight: 700; }
+.boot__emg { color: #AB3016; font-weight: 700; }
 .boot__hero {
   flex: 1;
   display: flex;
@@ -570,7 +648,7 @@
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.18em;
-  color: #2c776a;
+  color: #5A32DC;
 }
 .boot__h1 {
   margin: 0;
@@ -585,7 +663,7 @@
   max-width: 46ch;
   font-size: clamp(1rem, 1.5vw, 1.18rem);
   line-height: 1.6;
-  color: #55655f;
+  color: #57647F;
 }
 .boot__cta { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 0.5rem 0 0; }
 .boot__btn {
@@ -598,9 +676,9 @@
   font-size: 1rem;
   text-decoration: none;
 }
-.boot__btn--primary { background: #245f56; color: #fff; box-shadow: 0 14px 34px -16px rgba(36, 95, 86, 0.62); }
-.boot__btn--ghost { border: 1px solid rgba(12, 26, 23, 0.14); color: #1f4c46; background: #fff; }
-.boot__note { margin: 0.25rem 0 0; font-size: 0.85rem; color: #55655f; }
+.boot__btn--primary { background: #4A22B8; color: #fff; box-shadow: 0 14px 34px -16px rgba(36, 95, 86, 0.62); }
+.boot__btn--ghost { border: 1px solid rgba(10, 18, 36, 0.14); color: #311A76; background: #fff; }
+.boot__note { margin: 0.25rem 0 0; font-size: 0.85rem; color: #57647F; }
 @media (max-width: 640px) {
   .boot__emg { display: none; }
   .boot__cta { flex-direction: column; align-items: stretch; }
@@ -620,4 +698,37 @@
 @keyframes wiggle {
   0%, 100% { transform: rotate(-3deg); }
   50% { transform: rotate(3deg); }
+}
+
+@keyframes word-rise {
+  from { transform: translateY(115%) rotate(3deg); opacity: 0; }
+  to { transform: translateY(0) rotate(0); opacity: 1; }
+}
+@keyframes ticker {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+@keyframes aurora-shift {
+  0%   { background-position: 0% 0%, 100% 0%, 50% 100%, 100% 100%; }
+  50%  { background-position: 20% 30%, 80% 20%, 40% 70%, 70% 80%; }
+  100% { background-position: 0% 0%, 100% 0%, 50% 100%, 100% 100%; }
+}
+
+/* ------------------------------------------------------------------ */
+/* Hero aurora: four blooms drifting on a very slow loop. Background    */
+/* positions only, so the compositor does the work and nothing reflows. */
+/* ------------------------------------------------------------------ */
+.aurora-live {
+  background-color: #fff;
+  background-image:
+    radial-gradient(60% 55% at 8% 0%, rgba(172, 155, 255, 0.55) 0%, transparent 62%),
+    radial-gradient(55% 50% at 96% 6%, rgba(255, 194, 176, 0.55) 0%, transparent 62%),
+    radial-gradient(60% 55% at 70% 100%, rgba(167, 243, 208, 0.5) 0%, transparent 64%),
+    radial-gradient(50% 50% at 20% 92%, rgba(255, 224, 130, 0.45) 0%, transparent 64%);
+  background-size: 180% 180%;
+  background-repeat: no-repeat;
+  animation: aurora-shift 32s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .aurora-live { animation: none; background-size: 100% 100%; }
 }

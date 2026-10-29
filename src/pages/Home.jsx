@@ -21,7 +21,9 @@ import { isOpenNow, hoursSummary } from '../utils/clinic';
 import Icon from '../components/Icon';
 import FlipCard from '../components/FlipCard';
 import TrustRibbon from '../components/TrustRibbon';
-import { Sparkle, ConfettiDots, Squiggle } from '../components/Stickers';
+import KineticTitle from '../components/KineticTitle';
+import Ticker from '../components/Ticker';
+import { Sparkle, ConfettiDots, Squiggle, Cloud, Bloom } from '../components/Stickers';
 import { SectionHeading, RatingBadge } from '../components/ui';
 import Counter from '../components/home/Counter';
 import ServicesCarousel from '../components/home/ServicesCarousel';
@@ -124,6 +126,15 @@ function Hero() {
         <div className="absolute inset-0 grain opacity-30" />
       </div>
 
+      {/* Floating doodles: slow, offset, and behind the copy so they never
+          compete with the headline. */}
+      <div className="pointer-events-none absolute inset-0 z-[2] hidden sm:block" aria-hidden>
+        <Cloud className="doodle left-[6%] top-[16%] h-14 w-20 animate-bob text-white/90 drop-shadow-sm" />
+        <Sparkle className="doodle right-[10%] top-[24%] h-7 w-7 animate-bob text-accent-400 [animation-delay:0.8s]" />
+        <Sparkle className="doodle left-[42%] bottom-[16%] h-5 w-5 animate-bob text-brand-400 [animation-delay:1.6s]" />
+        <Bloom className="doodle right-[16%] bottom-[12%] h-9 w-9 animate-wiggle text-mango-400/80" />
+      </div>
+
       {/* 3D scene (or static art) sits behind the copy.
           On phones it is dialled back so it never competes with the text. */}
       <div className="pointer-events-none absolute inset-0 opacity-25 sm:opacity-100">
@@ -157,9 +168,9 @@ function Hero() {
             {hoursSummary(lang)}
           </span>
 
-          <h1 className="mt-6 title-xl" data-reveal>
-            {L(SITE.tagline)}
-          </h1>
+          {/* Words arrive one at a time and lift under the pointer. The text is
+              still a single heading for screen readers and crawlers. */}
+          <KineticTitle as="h1" text={L(SITE.tagline)} className="mt-6 title-xl" delay={0.05} />
 
           <p className="mt-6 max-w-xl lead" data-reveal data-delay="0.1">
             {t('home.sub')}
@@ -611,6 +622,7 @@ export default function Home() {
       <TrustRibbon />
       <Stats />
       <ClinicScene />
+      <Ticker />
       <DoctorTeaser />
       <CinemaChapter />
       <ServicesCarousel />
@@ -618,6 +630,7 @@ export default function Home() {
       <WhyAndRating />
       <MapSection />
       <BlogPreview />
+      <Ticker reverse />
       <CtaBand />
     </>
   );

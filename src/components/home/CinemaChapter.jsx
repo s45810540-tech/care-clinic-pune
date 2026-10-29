@@ -69,13 +69,13 @@ function HelixFallback() {
               y1={r.y}
               x2={r.x2}
               y2={r.y}
-              stroke={r.amber ? '#f99b20' : '#2dd4bf'}
+              stroke={r.amber ? '#FF7A57' : '#8A72FB'}
               opacity={0.55}
             />
           ))}
         </g>
-        <path d={strand} fill="none" stroke="#5eead4" strokeWidth="7" strokeLinecap="round" />
-        <path d={mirror} fill="none" stroke="#0d9488" strokeWidth="7" strokeLinecap="round" />
+        <path d={strand} fill="none" stroke="#AC9BFF" strokeWidth="7" strokeLinecap="round" />
+        <path d={mirror} fill="none" stroke="#6E4BF3" strokeWidth="7" strokeLinecap="round" />
       </svg>
     </div>
   );
@@ -100,74 +100,40 @@ export default function CinemaChapter() {
       setBeat(Math.min(CHAPTERS.length - 1, Math.floor(p * CHAPTERS.length)));
     };
 
-    const mm = gsap.matchMedia();
+    // Progress only — no pin. Pinning injected a spacer measured on mount, and
+    // the late display font plus lazy photos then shifted everything under it,
+    // which is what produced the long blank stretch in the middle of the page.
+    const trigger = ScrollTrigger.create({
+      trigger: rootRef.current,
+      start: 'top 70%',
+      end: 'bottom 40%',
+      onUpdate: (self) => setProgress(self.progress),
+    });
 
-    /* Desktop: pin + one scrubbed take through all three cards. */
-    mm.add('(min-width: 1024px)', () => {
-      const cards = gsap.utils.toArray('.cinema-card', cardsRef.current);
-      if (cards.length < 3) return undefined;
-
-      // Overlap the cards (grid stack) — only once we're actually pinning,
-      // so phones and reduced-motion visitors see a normal document flow.
-      cardsRef.current?.classList.add('cinema-stack');
-      gsap.set(cards, { opacity: 0, y: 44, scale: 0.98 });
-      gsap.set(cards[0], { opacity: 1, y: 0, scale: 1 });
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: rootRef.current,
-          start: 'top top',
-          end: () => `+=${Math.round(window.innerHeight * 2.2)}`,
-          pin: true,
-          scrub: 0.7,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-          onUpdate: (self) => setProgress(self.progress),
+    // Cards rise one by one as they arrive, in flow, so the copy is always
+    // reachable by scroll, keyboard and screen readers.
+    const cards = gsap.utils.toArray('.cinema-card', cardsRef.current);
+    const tweens = cards.map((card) =>
+      gsap.fromTo(
+        card,
+        { opacity: 0, y: 42, rotateX: 8, transformPerspective: 900 },
+        {
+          opacity: 1,
+          y: 0,
+          rotateX: 0,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: { trigger: card, start: 'top 88%', once: true },
         },
-      });
+      ),
+    );
 
-      // 0 → out / 1 → in, then 1 → out / 2 → in (card 3 holds to the end).
-      tl.to(cards[0], { opacity: 0, y: -44, scale: 0.98, duration: 0.5, ease: 'power2.in' }, 0.7)
-        .fromTo(cards[1], { opacity: 0, y: 44 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, 1.05)
-        .to(cards[1], { opacity: 0, y: -44, scale: 0.98, duration: 0.5, ease: 'power2.in' }, 1.8)
-        .fromTo(cards[2], { opacity: 0, y: 44 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, 2.15);
-
-      return () => {
-        tl.scrollTrigger?.kill();
-        tl.kill();
-        cardsRef.current?.classList.remove('cinema-stack');
-        gsap.set(cards, { clearProps: 'all' });
-      };
-    });
-
-    /* Phones: staggered entrance; the helix scrubs across the whole pass. */
-    mm.add('(max-width: 1023px)', () => {
-      const cards = gsap.utils.toArray('.cinema-card', cardsRef.current);
-      const enter = gsap.from(cards, {
-        opacity: 0,
-        y: 30,
-        stagger: 0.12,
-        duration: 0.7,
-        ease: 'power3.out',
-        scrollTrigger: { trigger: rootRef.current, start: 'top 78%', once: true },
-      });
-      const scrub = ScrollTrigger.create({
-        trigger: rootRef.current,
-        start: 'top bottom',
-        end: 'bottom top',
-        onUpdate: (self) => setProgress(self.progress),
-      });
-      return () => {
-        enter.scrollTrigger?.kill();
-        enter.kill();
-        scrub.kill();
-      };
-    });
-
-    const refresh = setTimeout(() => ScrollTrigger.refresh(), 300);
     return () => {
-      clearTimeout(refresh);
-      mm.revert();
+      trigger.kill();
+      tweens.forEach((tw) => {
+        tw.scrollTrigger?.kill();
+        tw.kill();
+      });
     };
   }, [reduced]);
 
@@ -190,10 +156,12 @@ export default function CinemaChapter() {
       <div className="pointer-events-none absolute inset-0 grain opacity-25" />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_45%,rgba(6,10,24,0.42)_100%)]" />
 
-      <div className="relative flex min-h-full flex-col justify-center lg:min-h-screen lg:py-24">
-        <div className="container-page grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
-          {/* Copy + chapter cards */}
-          <div className="relative z-10">
+      <div className="container-page relative py-16 sm:py-20 lg:py-24">
+        <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:gap-14">
+          {/* Sticky stage: copy, chapter meter and the helix stay put while the
+              three chapters scroll past on the right. Pure CSS sticky — no pin,
+              no spacer, nothing to desync. */}
+          <div className="lg:sticky lg:top-[calc(var(--header-h)+2rem)] lg:self-start">
             {/* Chapter meter (decorative) */}
             <div className="mb-7 flex items-center gap-4 text-[11px] font-bold uppercase tracking-[0.2em]" aria-hidden>
               <span className="text-mango-300">0{beat + 1}</span>
@@ -211,34 +179,39 @@ export default function CinemaChapter() {
               {t('about.valuesTitle')}
             </span>
             {/* text-white must be explicit: the base-layer h1–h4 rule sets text-ink,
-                which would otherwise beat the inherited white and render at ~1:1. */}             <h2 className="mt-5 max-w-xl text-3xl leading-[1.1] text-white sm:text-4xl lg:text-5xl">
+                which would otherwise beat the inherited white and render at ~1:1. */}
+            <h2 className="mt-5 max-w-xl title-lg text-white">
               {t('home.cinemaTitle')}
             </h2>
-            <p className="mt-4 max-w-xl text-sm leading-relaxed text-brand-100/75 sm:text-base">
+            <p className="mt-4 max-w-xl text-sm leading-relaxed text-white/75 sm:text-base">
               {t('home.cinemaSub')}
             </p>
 
-            <div ref={cardsRef} className="mt-8 space-y-4 lg:space-y-0">
-              {CHAPTERS.map((c) => (
-                <article
-                  key={c.i}
-                  className="cinema-card rounded-3xl border border-white/20 bg-white/[0.12] p-5 backdrop-blur-md sm:p-6"
-                >
-                  <div className="flex items-center gap-3">
-                    <span className="text-xs font-extrabold tracking-[0.2em] text-mango-300">{c.i}</span>
-                    <span className="h-px flex-1 bg-white/10" />
-                  </div>
-                  <h3 className="mt-3 text-lg text-white sm:text-xl">{t(c.t)}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-brand-100/80">{t(c.b)}</p>
-                </article>
-              ))}
+            <div className="relative mt-8 hidden h-[280px] lg:block">
+              {helix}
             </div>
           </div>
 
-          {/* 3D layer: full-bleed behind the copy on phones, its own frame on
-              desktop. One instance only — never two canvases. */}
-          <div className="pointer-events-none absolute inset-0 z-0 opacity-40 lg:relative lg:z-auto lg:min-h-[500px] lg:self-stretch lg:opacity-100">
-            {helix}
+          {/* Chapters: normal flow on every breakpoint. */}
+          <div ref={cardsRef} className="space-y-5 sm:space-y-6">
+            {CHAPTERS.map((c) => (
+              <article
+                key={c.i}
+                className="cinema-card rounded-3xl border border-white/25 bg-white/12 p-6 backdrop-blur-md sm:p-7"
+              >
+                <div className="flex items-center gap-3">
+                  <span className="grid h-9 w-9 place-items-center rounded-xl bg-mango-400/90 text-sm font-extrabold text-brand-900">
+                    {c.i}
+                  </span>
+                  <span className="h-px flex-1 bg-white/20" />
+                </div>
+                <h3 className="mt-4 text-xl text-white sm:text-2xl">{t(c.t)}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-white/80 sm:text-base">{t(c.b)}</p>
+              </article>
+            ))}
+
+            {/* Phone-only helix, since the sticky column is desktop-only. */}
+            <div className="relative h-[240px] opacity-90 lg:hidden">{helix}</div>
           </div>
         </div>
       </div>
