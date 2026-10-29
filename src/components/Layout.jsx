@@ -32,7 +32,9 @@ export default function Layout() {
 
       {/* Header publishes its real height as --header-h; the bottom padding keeps
           the last section clear of the sticky mobile action bar. */}
-      <main id="main" className="flex-1 pb-24 pt-[var(--header-h)] md:pb-0">
+      {/* overflow-x-clip: decorative blobs may bleed past a section, never past
+          the page. `clip` keeps position:sticky working, `hidden` would not. */}
+      <main id="main" className="flex-1 overflow-x-clip pb-24 pt-[var(--header-h)] md:pb-0">
         <div key={pathname} className="animate-fade-up motion-reduce:animate-none">
           <Outlet />
         </div>

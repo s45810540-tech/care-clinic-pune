@@ -34,7 +34,11 @@
     @apply bg-paper text-ink antialiased;
     font-feature-settings: 'kern', 'liga';
     font-synthesis-weight: none;
+    /* `clip` (not just hidden) stops a decorative blob or a tilted card from
+       widening the page, without creating a scroll container — which is what
+       would break every `position: sticky` column beneath it. */
     overflow-x: hidden;
+    overflow-x: clip;
     text-rendering: optimizeLegibility;
   }
 

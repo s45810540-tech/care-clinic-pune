@@ -416,7 +416,7 @@ function WhyAndRating() {
 function MapSection() {
   const { t, lang } = useI18n();
   return (
-    <section className="section">
+    <section className="section relative overflow-hidden">
       <div className="container-page grid items-start gap-8 lg:grid-cols-[1fr_1.25fr] lg:gap-12">
         <div data-reveal="left">
           <span className="eyebrow">
