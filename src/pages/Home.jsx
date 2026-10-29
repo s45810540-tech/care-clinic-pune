@@ -20,6 +20,8 @@ import { photoSrc } from '../data/photos';
 import { isOpenNow, hoursSummary } from '../utils/clinic';
 import Icon from '../components/Icon';
 import FlipCard from '../components/FlipCard';
+import TrustRibbon from '../components/TrustRibbon';
+import { Sparkle, ConfettiDots, Squiggle } from '../components/Stickers';
 import { SectionHeading, RatingBadge } from '../components/ui';
 import Counter from '../components/home/Counter';
 import ServicesCarousel from '../components/home/ServicesCarousel';
@@ -221,7 +223,9 @@ function Stats() {
 
   return (
     <section className="wash relative overflow-hidden py-12 sm:py-14">
-      <div className="container-page">
+      <Sparkle className="doodle -left-2 top-8 h-10 w-10 animate-bob text-mango-400/80" aria-hidden />
+      <Sparkle className="doodle right-6 bottom-6 h-6 w-6 animate-bob text-coral-400/70 [animation-delay:1.2s]" aria-hidden />
+      <div className="container-page relative">
         <dl className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           {STATS.map((s, i) => (
             <div
@@ -543,6 +547,8 @@ function CtaBand() {
           <span className="rainbow-edge absolute inset-x-0 top-0 h-1.5" aria-hidden />
           <div className="blob -right-16 -top-16 h-64 w-64 animate-drift bg-mango-300/60" aria-hidden />
           <div className="blob -bottom-20 left-10 h-56 w-56 animate-drift-slow bg-grape-300/50" aria-hidden />
+          <ConfettiDots className="doodle -left-6 bottom-6 h-24 w-24 text-coral-300/70" aria-hidden />
+          <Squiggle className="doodle right-10 top-10 h-6 w-24 rotate-6 text-sky-500/70" aria-hidden />
 
           <div className="relative flex flex-col items-start gap-8 lg:flex-row lg:items-center lg:justify-between">
             <div data-reveal="left" className="max-w-2xl">
@@ -602,6 +608,7 @@ export default function Home() {
   return (
     <>
       <Hero />
+      <TrustRibbon />
       <Stats />
       <ClinicScene />
       <DoctorTeaser />

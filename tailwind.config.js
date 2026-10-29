@@ -93,6 +93,9 @@ export default {
           'sans-serif',
         ],
         display: [
+          // Bricolage has no Devanagari, so Marathi headlines fall through to
+          // Noto — the metric-compatible pair keeps the two scripts in tune.
+          'Bricolage Grotesque',
           'Plus Jakarta Sans',
           'Noto Sans Devanagari',
           'ui-sans-serif',
@@ -147,6 +150,25 @@ export default {
           '0%, 100%': { backgroundPosition: '0% 50%' },
           '50%': { backgroundPosition: '100% 50%' },
         },
+        // Playful accents, deliberately small: a sticker wiggle, a soft bob for
+        // doodles, and an endless ribbon.
+        wiggle: {
+          '0%, 100%': { transform: 'rotate(-3deg)' },
+          '50%': { transform: 'rotate(3deg)' },
+        },
+        bob: {
+          '0%, 100%': { transform: 'translateY(0) rotate(var(--bob-rot, 0deg))' },
+          '50%': { transform: 'translateY(-8px) rotate(var(--bob-rot, 0deg))' },
+        },
+        ribbon: {
+          '0%': { transform: 'translate3d(0,0,0)' },
+          '100%': { transform: 'translate3d(-50%,0,0)' },
+        },
+        'pop-in': {
+          '0%': { opacity: '0', transform: 'scale(0.86)' },
+          '60%': { opacity: '1', transform: 'scale(1.03)' },
+          '100%': { opacity: '1', transform: 'scale(1)' },
+        },
       },
       animation: {
         'fade-up': 'fade-up 0.6s cubic-bezier(0.16,1,0.3,1) both',
@@ -156,10 +178,16 @@ export default {
         drift: 'drift 18s ease-in-out infinite',
         'drift-slow': 'drift 26s ease-in-out infinite',
         'hue-slide': 'hue-slide 14s ease-in-out infinite',
+        wiggle: 'wiggle 3.6s ease-in-out infinite',
+        bob: 'bob 5s ease-in-out infinite',
+        ribbon: 'ribbon 34s linear infinite',
+        'pop-in': 'pop-in 0.5s cubic-bezier(0.34,1.56,0.64,1) both',
       },
       transitionTimingFunction: {
-        // One easing curve for the whole site (buttons, cards, drawer).
+        // One easing curve for the whole site (buttons, cards, drawer), plus a
+        // spring used only where a little bounce reads as friendly, not sloppy.
         brand: 'cubic-bezier(0.22, 1, 0.36, 1)',
+        spring: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
       },
       maxWidth: {
         prose: '68ch',

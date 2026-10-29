@@ -6,6 +6,7 @@ import WhatsAppFab from './WhatsAppFab';
 import CookieConsent from './CookieConsent';
 import MagneticCursor from './MagneticCursor';
 import ScrollToTop from './ScrollToTop';
+import ScrollProgress from './ScrollProgress';
 import { useSmoothScroll } from '../hooks/useScroll';
 
 export default function Layout() {
@@ -25,6 +26,7 @@ export default function Layout() {
       </a>
 
       <ScrollToTop />
+      <ScrollProgress />
       <Header />
       <MagneticCursor />
 

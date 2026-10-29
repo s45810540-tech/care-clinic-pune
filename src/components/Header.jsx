@@ -191,11 +191,13 @@ export default function Header() {
                 to={item.to}
                 end={item.end}
                 className={({ isActive }) =>
-                  `relative rounded-full px-3 py-2 text-[13px] font-bold transition duration-200 ${
+                  // The dot under the label is the only playfulness in the nav:
+                  // it springs in on hover and stays put on the current page.
+                  `relative rounded-full px-3 py-2 text-[13px] font-bold transition duration-200 after:absolute after:-bottom-0.5 after:left-1/2 after:h-1.5 after:w-1.5 after:-translate-x-1/2 after:scale-0 after:rounded-full after:bg-coral-500 after:transition-transform after:duration-300 after:ease-spring hover:after:scale-100 ${
                     item.wide ? 'hidden xl:inline-flex' : 'inline-flex'
                   } ${
                     isActive
-                      ? 'bg-brand-50 text-brand-900'
+                      ? 'bg-brand-50 text-brand-900 after:scale-100'
                       : 'text-ink-soft hover:bg-brand-50/70 hover:text-brand-900'
                   }`
                 }

@@ -15,13 +15,20 @@ import Icon from './Icon';
  * jumps from h1 straight to h3.
  */
 
-/** Short two-tone rule — replaces the hand-drawn squiggle that used to sit under every title. */
+/**
+ * Two-tone rule under a section title, with a single hand-drawn squiggle at the
+ * end. One small wobble of imperfection is what makes the page feel authored
+ * rather than templated — it is decorative and hidden from assistive tech.
+ */
 function Rule({ align = 'center' }) {
   const self = align === 'left' ? 'self-start' : align === 'right' ? 'self-end' : 'self-center';
   return (
-    <span className={`flex items-center gap-1 ${self}`} aria-hidden data-reveal="fade">
+    <span className={`flex items-center gap-1.5 ${self}`} aria-hidden data-reveal="fade">
       <span className="h-[3px] w-8 rounded-full bg-brand-700" />
       <span className="h-[3px] w-3 rounded-full bg-accent-400" />
+      <svg viewBox="0 0 34 10" className="h-2.5 w-8 text-coral-500" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
+        <path d="M2 6c4-4 6 2 10-1s6 3 10-1 6 2 10-1" />
+      </svg>
     </span>
   );
 }

@@ -109,7 +109,15 @@
   }
   /* A tiny nudge on the leading icon — the cheapest "this is clickable" cue. */
   .btn > svg:first-child { @apply transition-transform duration-300 ease-brand; }
-  .btn:hover > svg:first-child { transform: translateY(-1px) scale(1.04); }
+  .btn:hover > svg:first-child { transform: translateY(-1px) scale(1.06); }
+  /* Tactile press: the spring gives it a light bounce without looking toy-like. */
+  .btn:active { transform: translateY(1px) scale(0.98); }
+  @media (hover: hover) {
+    .btn:hover { transform: translateY(-2px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .btn:hover, .btn:active { transform: none; }
+  }
 
   .btn-primary {
     @apply btn bg-brand-700 text-white shadow-glow hover:bg-brand-800 active:scale-[0.985];
@@ -139,7 +147,15 @@
     @apply rounded-3xl border border-line bg-white shadow-card;
   }
   .card-hover {
-    @apply transition duration-300 ease-brand hover:-translate-y-1 hover:border-brand-200 hover:shadow-lift;
+    @apply transition duration-500 ease-spring hover:-translate-y-1.5 hover:border-brand-300 hover:shadow-lift;
+  }
+  /* Opt-in "pop" for playfully weighted cards (stickers, steps, doodles). */
+  .card-pop {
+    @apply transition duration-500 ease-spring hover:-translate-y-2 hover:rotate-[-0.6deg] hover:shadow-lift;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .card-hover, .card-pop { @apply transition-none; }
+    .card-hover:hover, .card-pop:hover { transform: none; }
   }
   .panel {
     @apply rounded-4xl border border-line bg-white p-6 shadow-card sm:p-8;
@@ -223,6 +239,21 @@
 .js [data-reveal='3d'] {
   transform: perspective(900px) rotateX(10deg) translateY(44px) scale(0.97);
   transform-origin: 50% 100%;
+}
+.js [data-reveal='flipY'] {
+  transform: perspective(1100px) rotateY(-24deg) translateX(28px);
+  transform-origin: 0% 50%;
+}
+.js [data-reveal='tilt-top'] {
+  transform: perspective(1100px) rotateX(-16deg) translateY(-24px);
+  transform-origin: 50% 0%;
+}
+/* Depth arrivals get the spring; plain fades keep the calm curve. */
+.js [data-reveal='3d'],
+.js [data-reveal='flipY'],
+.js [data-reveal='tilt-top'],
+.js [data-reveal='scale'] {
+  transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 /* Two extra 3D entrances: rotate on Y (side panels, photos) and a bird's-eye
    tilt for grids of cards. */
@@ -330,6 +361,44 @@
    */
   .cinema-stack { display: grid; }
   .cinema-stack > * { grid-area: 1 / 1; }
+
+  /* ---- Playful, but controlled ----------------------------------- */
+  /* Endless ribbon: two identical halves translated by -50%. Pauses on hover so
+     nothing moves away from someone trying to read it. */
+  .ribbon-track {
+    display: flex;
+    width: max-content;
+    animation: ribbon 38s linear infinite;
+  }
+  .ribbon:hover .ribbon-track { animation-play-state: paused; }
+  @media (prefers-reduced-motion: reduce) {
+    .ribbon-track { animation: none; width: auto; flex-wrap: wrap; justify-content: center; }
+    .ribbon-dup { display: none; }
+  }
+
+  /* Marker swipe under a word (used once per page at most). */
+  .marker {
+    background-image: linear-gradient(
+      transparent 58%,
+      rgba(255, 176, 32, 0.5) 58%,
+      rgba(255, 176, 32, 0.5) 92%,
+      transparent 92%
+    );
+    background-repeat: no-repeat;
+    padding-inline: 0.08em;
+    box-decoration-break: clone;
+  }
+
+  /* Doodles: positioned, low-contrast, never over text. */
+  .doodle {
+    position: absolute;
+    pointer-events: none;
+    user-select: none;
+    opacity: 0.9;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .doodle { animation: none !important; }
+  }
 
   /* ---- Bright surfaces ------------------------------------------- */
   /* Section wash: white base, colour blooms at the corners, faint dot grid on
@@ -535,4 +604,20 @@
 @media (max-width: 640px) {
   .boot__emg { display: none; }
   .boot__cta { flex-direction: column; align-items: stretch; }
+}
+
+/* ------------------------------------------------------------------ */
+/* Raw keyframes used by hand-written utilities above                  */
+/* ------------------------------------------------------------------ */
+@keyframes ribbon {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
 }
