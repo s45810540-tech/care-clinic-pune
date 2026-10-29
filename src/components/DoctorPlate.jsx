@@ -30,8 +30,8 @@ export default function DoctorPlate({ doctor, className = '', compact = false })
 
   return (
     <Tilt max={6} className={`group relative ${className}`}>
-      // Deep solid base, not just a gradient child: the chips stay readable even
-      // if the decorative gradient layer never paints.
+      {/* Deep solid base, not just a gradient child: the chips stay readable
+          even if the decorative gradient layer never paints. */}
       <div data-spotlight className="spotlight relative overflow-hidden rounded-4xl border border-brand-900/20 bg-brand-900 shadow-lift">
         {isRealPhoto(doctor.photo) ? (
           <img
