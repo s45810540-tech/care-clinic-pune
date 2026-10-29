@@ -14,7 +14,7 @@ import { useI18n } from '../i18n/I18nContext';
  * static, centred list.
  */
 const ITEMS = [
-  { icon: 'clock', key: 'common.daily' },
+  { icon: 'clock', key: 'home.quick1' },
   { icon: 'users', key: 'home.quick2' },
   { icon: 'globe', key: 'home.quick3' },
   { icon: 'shield', key: 'home.why1T' },
