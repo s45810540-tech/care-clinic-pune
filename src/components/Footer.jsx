@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useI18n } from '../i18n/I18nContext';
-import { ADDRESS, EMERGENCY_NUMBER, HOURS, PHONE_DISPLAY, PHONE_TEL, RATING, SITE, waLink } from '../data/site';
-import { formatTime } from '../utils/clinic';
+import { ADDRESS, EMERGENCY_NUMBER, PHONE_DISPLAY, PHONE_TEL, RATING, SITE, waLink } from '../data/site';
+import { hoursSummary } from '../utils/clinic';
 import { POSTS } from '../data/content';
 import Icon from './Icon';
 import { OpenBadge } from './Header';
@@ -17,132 +17,146 @@ const LEGAL_LINKS = [
 
 export default function Footer() {
   const { t, lang } = useI18n();
-  const openLabel = formatTime(HOURS.openingTime, lang);
-  const closeLabel = formatTime(HOURS.closingTime, lang);
+  const hours = hoursSummary(lang);
+
+  const explore = [
+    { to: '/about', label: t('nav.about') },
+    { to: '/services', label: t('nav.services') },
+    { to: '/gallery', label: t('gallery.title') },
+    { to: '/reviews', label: t('nav.reviews') },
+    { to: '/blog', label: t('nav.blog') },
+    { to: '/faq', label: t('nav.faq') },
+  ];
 
   return (
-    <footer className="relative overflow-hidden bg-brand-950 text-white">
-      {/* Playful spectrum stripe — the site's signature between dark bands */}
-      <div
-        className="h-1.5 w-full bg-[linear-gradient(90deg,#2DD4BF_0%,#38BDF8_33%,#F99B20_66%,#FB7185_100%)]"
-        aria-hidden
-      />
-      {/* Soft gradient wash so the dark footer still feels warm */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(1000px_400px_at_15%_-10%,rgba(20,184,166,0.35),transparent_60%),radial-gradient(800px_300px_at_90%_10%,rgba(249,155,32,0.18),transparent_60%)]" />
+    <footer className="wash relative overflow-hidden border-t border-line text-ink">
+      {/* Spectrum rule closes the page instead of a dark slab. */}
+      <div className="rainbow-edge h-1.5 w-full" aria-hidden />
+      <div className="blob -right-20 top-0 h-72 w-72 animate-drift-slow bg-sky-300/40" aria-hidden />
+      <div className="blob -left-16 bottom-10 h-64 w-64 animate-drift bg-mango-200/50" aria-hidden />
 
-      <div className="container-page relative py-14 sm:py-16">
-        <div className="grid gap-10 md:grid-cols-12">
-          {/* Brand */}
+      {/* Bottom padding keeps the last line clear of the sticky mobile action bar. */}
+      <div className="container-page relative pb-[calc(5.5rem+env(safe-area-inset-bottom))] pt-14 sm:pt-16 md:pb-14">
+        <div className="grid gap-10 md:grid-cols-12 md:gap-8">
+          {/* Brand + CTA */}
           <div className="md:col-span-4">
             <div className="flex items-center gap-3">
-              <span className="grid h-11 w-11 place-items-center rounded-xl bg-white/10">
-                <Icon name="heart" className="h-6 w-6 text-accent-300" strokeWidth={2} />
+              <span className="grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br from-coral-500 to-grape-600 shadow-glow-coral">
+                <Icon name="heart" className="h-6 w-6 text-white" strokeWidth={2} />
               </span>
               <div className="leading-tight">
                 <p className="text-lg font-extrabold">{SITE.shortName}</p>
-                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-brand-200">
+                <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-ink-mute">
                   General Medicine &amp; Surgery
                 </p>
               </div>
             </div>
-            <p className="mt-4 max-w-sm text-sm leading-relaxed text-brand-100/80">{t('footer.about')}</p>
-            <div className="mt-4">
+            <p className="mt-4 max-w-sm text-sm leading-relaxed text-ink-mute">{t('footer.about')}</p>
+
+            <div className="mt-5 flex flex-wrap items-center gap-2">
               <OpenBadge />
+              <a
+                href={RATING.googleUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border border-line bg-white px-3 py-1.5 text-xs font-bold text-ink-soft shadow-soft transition hover:border-mango-300 hover:bg-mango-50"
+              >
+                <span className="flex items-center gap-0.5 text-mango-500">
+                  {[0, 1, 2, 3, 4].map((i) => (
+                    <Icon key={i} name="star" className="h-3.5 w-3.5" fill="currentColor" strokeWidth={0} />
+                  ))}
+                </span>
+                {RATING.value} · {RATING.count} {t('common.reviews')}
+              </a>
             </div>
-            <a
-              href={RATING.googleUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-5 inline-flex items-center gap-2 rounded-2xl bg-white/10 px-4 py-3 text-sm font-bold transition hover:bg-white/20"
-            >
-              <span className="flex items-center gap-0.5 text-accent-300">
-                {[0, 1, 2, 3, 4].map((i) => (
-                  <Icon key={i} name="star" className="h-4 w-4" fill="currentColor" strokeWidth={0} />
-                ))}
-              </span>
-              {RATING.value} / 5 · {RATING.count} {t('common.reviews')}
-              <Icon name="arrowUpRight" className="h-4 w-4" />
-            </a>
+
+            <div className="mt-6 flex flex-wrap gap-2">
+              <Link to="/book" className="btn-primary !px-5 !py-3">
+                <Icon name="calendar" className="h-4 w-4" /> {t('common.bookNow')}
+              </Link>
+              <a href={waLink()} target="_blank" rel="noopener noreferrer" className="btn border border-mint-300 bg-white !px-5 !py-3 text-mint-800 hover:border-mint-500 hover:bg-mint-50">
+                <Icon name="whatsapp" className="h-4 w-4" fill="currentColor" strokeWidth={0} />
+                {t('common.whatsapp')}
+              </a>
+            </div>
           </div>
 
           {/* Contact */}
           <div className="md:col-span-4">
-            <h3 className="text-sm font-extrabold uppercase tracking-[0.16em] text-accent-300">{t('footer.contact')}</h3>
-            <address className="mt-4 space-y-4 text-sm not-italic text-brand-100/90">
+            <h2 className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-ink-mute">
+              {t('footer.contact')}
+            </h2>
+            <address className="mt-4 space-y-4 text-sm not-italic text-ink-soft">
               <p className="flex gap-3">
-                <Icon name="mapPin" className="mt-0.5 h-5 w-5 shrink-0 text-brand-300" />
-                <span>
+                <Icon name="mapPin" className="mt-0.5 h-5 w-5 shrink-0 text-coral-500" />
+                <span className="leading-relaxed">
                   {ADDRESS.line1},<br />
                   {ADDRESS.line2},<br />
                   {ADDRESS.line3} – {ADDRESS.pincode}
                 </span>
               </p>
               <p className="flex items-center gap-3">
-                <Icon name="phone" className="h-5 w-5 shrink-0 text-brand-300" />
-                <a href={`tel:${PHONE_TEL}`} className="font-bold hover:text-white">
+                <Icon name="phone" className="h-5 w-5 shrink-0 text-sky-500" />
+                <a href={`tel:${PHONE_TEL}`} className="tabular font-bold transition hover:text-brand-700">
                   {PHONE_DISPLAY}
                 </a>
               </p>
               <p className="flex items-center gap-3">
-                <Icon name="clock" className="h-5 w-5 shrink-0 text-brand-300" />
+                <Icon name="clock" className="h-5 w-5 shrink-0 text-sky-500" />
                 <span>
-                  {t('common.daily')} {openLabel} – {closeLabel}
+                  {t('common.daily')} {hours}
                 </span>
               </p>
-              <p className="flex items-start gap-3 text-xs text-brand-200/80">
+              <p className="flex items-start gap-3 text-xs leading-relaxed text-ink-mute">
                 <Icon name="info" className="mt-0.5 h-4 w-4 shrink-0" />
                 {t('footer.emergencyNote')} {EMERGENCY_NUMBER}.
               </p>
             </address>
-            <div className="mt-5 flex flex-wrap gap-2">
-              <a href={waLink()} target="_blank" rel="noopener noreferrer" className="btn bg-emerald-700 text-white hover:bg-emerald-800">
-                <Icon name="whatsapp" className="h-4 w-4" fill="currentColor" strokeWidth={0} />
-                {t('common.whatsapp')}
-              </a>
-              <a href={`tel:${PHONE_TEL}`} className="btn border border-white/25 text-white hover:bg-white/10">
-                <Icon name="phone" className="h-4 w-4" /> {t('common.call')}
-              </a>
-            </div>
           </div>
 
-          {/* Links */}
+          {/* Explore */}
           <div className="md:col-span-2">
-            <h3 className="text-sm font-extrabold uppercase tracking-[0.16em] text-accent-300">{t('footer.quickLinks')}</h3>
-            <ul className="mt-4 space-y-2.5 text-sm text-brand-100/90">
-              {[
-                { to: '/about', label: t('nav.about') },
-                { to: '/services', label: t('nav.services') },
-                { to: '/book', label: t('nav.book') },
-                { to: '/reviews', label: t('nav.reviews') },
-                { to: '/gallery', label: t('gallery.title') },
-                { to: '/contact', label: t('nav.contact') },
-                { to: '/faq', label: t('nav.faq') },
-                { to: '/blog', label: t('nav.blog') },
-              ].map((l) => (
+            <h2 className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-ink-mute">
+              {t('footer.quickLinks')}
+            </h2>
+            <ul className="mt-4 space-y-2.5 text-sm text-ink-soft">
+              {explore.map((l) => (
                 <li key={l.to}>
-                  <Link to={l.to} className="transition hover:text-white">
+                  <Link to={l.to} className="transition hover:text-brand-700">
                     {l.label}
                   </Link>
                 </li>
               ))}
-              {POSTS.map((p) => (
-                <li key={p.slug} className="hidden sm:block">
-                  <Link to={`/blog/${p.slug}`} className="transition hover:text-white">
-                    <span className="text-brand-300">· </span>
-                    {p.title[lang] ?? p.title.en}
+              <li>
+                <Link to="/contact" className="transition hover:text-brand-700">
+                  {t('nav.contact')}
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Legal + latest reading */}
+          <div className="md:col-span-2">
+            <h2 className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-ink-mute">
+              {t('footer.legal')}
+            </h2>
+            <ul className="mt-4 space-y-2.5 text-sm text-ink-soft">
+              {LEGAL_LINKS.map((l) => (
+                <li key={l.to}>
+                  <Link to={l.to} className="transition hover:text-brand-700">
+                    {l.label}
                   </Link>
                 </li>
               ))}
             </ul>
-          </div>
-
-          <div className="md:col-span-2">
-            <h3 className="text-sm font-extrabold uppercase tracking-[0.16em] text-accent-300">{t('footer.legal')}</h3>
-            <ul className="mt-4 space-y-2.5 text-sm text-brand-100/90">
-              {LEGAL_LINKS.map((l) => (
-                <li key={l.to}>
-                  <Link to={l.to} className="transition hover:text-white">
-                    {l.label}
+            <p className="mt-5 text-[11px] font-extrabold uppercase tracking-[0.18em] text-ink-mute">
+              {t('nav.blog')}
+            </p>
+            <ul className="mt-2 space-y-2 text-xs text-ink-mute">
+              {POSTS.slice(0, 2).map((p) => (
+                <li key={p.slug}>
+                  <Link to={`/blog/${p.slug}`} className="leading-relaxed transition hover:text-brand-700">
+                    {p.title[lang] ?? p.title.en}
                   </Link>
                 </li>
               ))}
@@ -150,16 +164,16 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col gap-4 border-t border-white/10 pt-6 text-xs text-brand-200/80 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-12 flex flex-col gap-3 border-t border-line pt-6 text-xs text-ink-mute sm:flex-row sm:items-center sm:justify-between">
           <p>
             © {new Date().getFullYear()} {SITE.name}. {t('footer.rights')}
           </p>
-          <p className="max-w-xl">
-            <Link to="/medical-disclaimer" className="underline underline-offset-2 hover:text-white">
+          <p className="max-w-xl leading-relaxed">
+            <Link to="/medical-disclaimer" className="underline underline-offset-2 transition hover:text-brand-700">
               {t('common.notMedicalAdvice')}
             </Link>
           </p>
-          <p>{t('footer.builtBy')}</p>
+          <p className="shrink-0">{t('footer.builtBy')}</p>
         </div>
       </div>
     </footer>

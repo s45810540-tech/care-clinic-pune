@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="theme-color" content="#0F766E" />
+    <meta name="theme-color" content="#245F56" />
 
     <!-- Primary SEO (per-page title/description set at runtime by <Seo/>) -->
     <title>Care Clinic for General Medicine &amp; Surgery, Pune | केअर क्लिनिक</title>
@@ -41,7 +41,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&display=swap"
       rel="stylesheet"
       media="print"
       onload="this.media='all'"
@@ -92,7 +92,13 @@
               {
                 "@type": "OpeningHoursSpecification",
                 "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
-                "opens": "09:00",
+                "opens": "10:00",
+                "closes": "14:00"
+              },
+              {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+                "opens": "17:00",
                 "closes": "22:00"
               }
             ],
@@ -111,7 +117,10 @@
               { "@type": "MedicalProcedure", "name": "Ayurvedic treatment" },
               { "@type": "MedicalProcedure", "name": "Diagnostics" }
             ],
-            "founder": { "@id": "https://care-clinic.example.com/#dr-swati-kamble" }
+            "founder": [
+              { "@id": "https://care-clinic.example.com/#dr-swati-kamble" },
+              { "@id": "https://care-clinic.example.com/#dr-prakash-kamble" }
+            ]
           },
           {
             "@type": "Physician",
@@ -119,8 +128,17 @@
             "name": "Dr. Swati Kamble",
             "medicalSpecialty": ["GeneralPractice", "Surgery"],
             "worksFor": { "@id": "https://care-clinic.example.com/#clinic" },
-            "qualification": "[QUALIFICATIONS]",
-            "identifier": "[REG. NO.]"
+            "qualification": "M.S. (Shalya)",
+            "identifier": "I-53778-A"
+          },
+          {
+            "@type": "Physician",
+            "@id": "https://care-clinic.example.com/#dr-prakash-kamble",
+            "name": "Dr. Prakash Kamble",
+            "medicalSpecialty": ["AyurvedicMedicine"],
+            "worksFor": { "@id": "https://care-clinic.example.com/#clinic" },
+            "qualification": "B.A.M.S.",
+            "identifier": "I-57210-A"
           }
         ]
       }
@@ -149,13 +167,13 @@
         <h1 class="boot__h1">Caring for your family, every day</h1>
         <p class="boot__lead">
           General medicine, fever &amp; infection care, paediatrics, day-care admissions, minor surgery and diagnostics —
-          with Dr. Swati Kamble.
+          with Dr. Swati Kamble (M.S.) and Dr. Prakash Kamble (B.A.M.S.).
         </p>
         <p class="boot__cta">
           <a class="boot__btn boot__btn--primary" href="/book">Book appointment</a>
           <a class="boot__btn boot__btn--ghost" href="https://wa.me/918275573300">Chat on WhatsApp</a>
         </p>
-        <p class="boot__note">Open daily until 10 pm · 082755 73300</p>
+        <p class="boot__note">Open daily · 10 am–2 pm &amp; 5–10 pm · 082755 73300</p>
       </div>
     </div>
     <div id="root"></div>

@@ -7,6 +7,7 @@ import { PageHeader, PlaceholderTag } from '../components/ui';
 import { SERVICES } from '../data/content';
 import { useEffect, useRef } from 'react';
 import Icon from '../components/Icon';
+import Tilt from '../components/Tilt';
 
 const TONES = [
   'from-brand-50 to-white',
@@ -55,7 +56,7 @@ export default function Services() {
       <PageHeader eyebrow={t('nav.services')} title={t('services.title')} sub={t('services.sub')} />
 
       {/* Jump links */}
-      <nav className="sticky top-[96px] z-30 border-b border-brand-100 bg-white/95 backdrop-blur" aria-label="Services">
+      <nav className="sticky top-[var(--header-h)] z-30 border-b border-brand-100 bg-white/95 backdrop-blur" aria-label="Services">
         <div className="no-scrollbar container-page flex gap-2 overflow-x-auto py-3">
           {SERVICES.map((s) => (
             <a
@@ -76,7 +77,7 @@ export default function Services() {
           <section
             key={service.slug}
             id={service.slug}
-            className={`scroll-mt-[160px] bg-gradient-to-b ${TONES[i % TONES.length]} py-14 sm:py-20`}
+            className={`anchor-offset bg-gradient-to-b ${TONES[i % TONES.length]} py-14 sm:py-20`}
           >
             <div className="container-page grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
               <div data-reveal={flip ? 'right' : 'left'}>
@@ -119,10 +120,12 @@ export default function Services() {
               </div>
 
               {/* Illustration panel — [PLACEHOLDER] swap for a real clinic photograph */}
-              <div className={flip ? 'lg:order-first' : ''} data-reveal={flip ? 'left' : 'right'}>
-                <div
+              <div className={flip ? 'lg:order-first' : ''} data-reveal="3d">
+                <Tilt
+                  max={8}
+                  scale={1.012}
                   data-service-art
-                  className="relative overflow-hidden rounded-[2rem] border border-brand-100 bg-white p-8 shadow-card"
+                  className="relative overflow-hidden rounded-[2rem] border border-line bg-white p-8 shadow-card"
                 >
                   <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-brand-100/70" />
                   <div className="pointer-events-none absolute -bottom-10 -left-10 h-40 w-40 rounded-full bg-accent-100/70" />
@@ -143,7 +146,7 @@ export default function Services() {
                   <p className="mt-3 text-center text-[11px] text-ink-mute">
                     <PlaceholderTag>Illustration — replace with a photo</PlaceholderTag>
                   </p>
-                </div>
+                </Tilt>
               </div>
             </div>
           </section>
@@ -151,16 +154,20 @@ export default function Services() {
       })}
 
       {/* Closing CTA */}
-      <section className="bg-brand-900 py-14 text-white sm:py-16">
-        <div className="container-page flex flex-col items-start gap-5 lg:flex-row lg:items-center lg:justify-between">
-          <div data-reveal="left">
-            {/* explicit white — the base h1–h4 rule (text-ink) beats inherited color */}
-            <h2 className="text-3xl leading-[1.1] text-white sm:text-4xl lg:text-5xl">{t('home.ctaTitle')}</h2>
-            <p className="mt-2 text-brand-100/85">{t('home.ctaSub')}</p>
+      <section className="relative overflow-hidden pb-4 pt-2">
+        <div className="container-page">
+          <div className="wash wash-strong relative overflow-hidden rounded-[2.5rem] border border-line p-8 shadow-lift sm:p-10" data-reveal="3d">
+            <span className="rainbow-edge absolute inset-x-0 top-0 h-1.5" aria-hidden />
+            <div className="relative flex flex-col items-start gap-6 lg:flex-row lg:items-center lg:justify-between">
+              <div className="max-w-2xl">
+                <h2 className="text-3xl leading-[1.1] text-ink sm:text-4xl lg:text-[3rem]">{t('home.ctaTitle')}</h2>
+                <p className="mt-2 text-ink-soft">{t('home.ctaSub')}</p>
+              </div>
+              <Link to="/book" className="btn-primary !px-7 !py-4 text-base" data-magnetic>
+                <Icon name="calendar" className="h-5 w-5" /> {t('common.bookNow')}
+              </Link>
+            </div>
           </div>
-          <Link to="/book" className="btn bg-accent-500 !px-7 !py-4 text-ink hover:bg-accent-400" data-magnetic>
-            <Icon name="calendar" className="h-5 w-5" /> {t('common.bookNow')}
-          </Link>
         </div>
       </section>
     </div>

@@ -86,8 +86,10 @@ src/
 | Structured data (schema.org) | `index.html` |
 | Legal text | `src/pages/legal/*.jsx` (all share `LegalShell.jsx` + `LAST_UPDATED`) |
 
-**Hours:** `HOURS.openingTime` in `src/data/site.js` is `[09:00]` — a placeholder.
-Closing time is 10 pm (given). The header badge computes “Open now” from the
+**Hours:** `HOURS.sessions` in `src/data/site.js` holds the clinic's two real OPD
+windows, taken from its own signboard: 10:00–14:00 and 17:00–22:00. Every hours
+line, the “Open now” badge and the booking slot list read that array, so the
+2–5 pm lunch break counts as closed. The header badge computes “Open now” from the
 visitor’s clock, and the booking form only offers slots inside opening hours and
 disables past slots (30-minute lead).
 
@@ -162,8 +164,9 @@ Degradation, deliberately:
   fallback instead.
 - Smooth scroll, counters, reveals, parallax and the magnetic cursor are all
   disabled under `prefers-reduced-motion`.
-- Images are lazy-loaded SVG placeholders (≈1.7 kB each) — replace with
-  WebP/AVIF photos, ≤100 kB each, with explicit `width`/`height`.
+- The four clinic photographs live in `src/assets/photos/` as WebP (96–160 kB),
+  lazy-loaded with explicit `width`/`height`. Remaining gallery slots still use
+  the generated SVG art and swap in automatically when a real file is dropped in.
 - Keyboard focus rings, `aria-expanded` accordion, labelled form fields with
   inline errors, 44 px tap targets, WCAG AA contrast (checked against the teal
   palette), skip-to-content `#main` landmark.
@@ -277,14 +280,27 @@ Unspecified channels keep their defaults.
 
 ---
 
+## 3D motion
+
+Three layers, all optional and all switched off for `prefers-reduced-motion`:
+
+| Layer | Where | What it does |
+| --- | --- | --- |
+| Cinema hero | `components/home/Hero3D.jsx` | WebGL take, code-split and skipped on low-end devices |
+| Photo scene | `components/home/ClinicScene.jsx` | Four real photos on separate scroll-scrubbed perspective tracks, plus a pointer-leaning stage |
+| Tilt cards | `components/Tilt.jsx` | Pointer-driven rotateX/rotateY with a light sheen, used on gallery, doctor, signboard and team photos |
+
+Below 1024 px the scene drops the scrub and rotation and simply fades the cards
+in order, because 3D transforms on a phone cost frames and buy nothing.
+
 ## Placeholders — replace before launch
 
 | # | Item | Where |
 | --- | --- | --- |
 | 1 | Production domain (`care-clinic.example.com`) | `index.html`, `public/sitemap.xml`, `public/robots.txt`, `src/data/site.js` |
-| 2 | Doctor’s **[QUALIFICATIONS]** | `src/data/site.js` → `DOCTOR.qualifications` |
-| 3 | Doctor’s **[REG. NO.]** | `src/data/site.js` → `DOCTOR.regNo` |
-| 4 | **[OPENING TIME]** (`09:00`) | `src/data/site.js` → `HOURS.openingTime` |
+| 2 | ~~Doctor’s qualifications~~ **DONE** | `src/data/site.js` → `DOCTORS[].qualifications` |
+| 3 | ~~Doctor’s registration number~~ **DONE** | `src/data/site.js` → `DOCTORS[].regNo` |
+| 4 | ~~Opening time~~ **DONE** (two OPD sessions) | `src/data/site.js` → `HOURS.sessions` |
 | 5 | Years of service / patients-served figures | `src/data/site.js` → `STATS` (+ note on the Home page) |
 | 6 | Google Maps listing URL (for the 4.9/600 link) | `src/data/site.js` → `RATING.googleUrl` |
 | 7 | Map embed URL / geo coordinates | `src/data/site.js` → `RATING.mapEmbed`, `index.html` JSON-LD `geo` |

@@ -13,6 +13,7 @@ const paths = {
   menu: 'M4 7h16M4 12h16M4 17h16',
   close: 'M6 6l12 12M18 6 6 18',
   arrowRight: 'M5 12h14m-6-6 6 6-6 6',
+  arrowLeft: 'M19 12H5m6 6-6-6 6-6',
   arrowUpRight: 'M7 17 17 7m0 0H8.5M17 7v8.5',
   chevronDown: 'M6 9.5 12 15l6-5.5',
   chevronLeft: 'M14.5 6 9 12l5.5 6',

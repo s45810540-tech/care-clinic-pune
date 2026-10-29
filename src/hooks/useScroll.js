@@ -43,58 +43,66 @@ export function useSmoothScroll() {
 
 /**
  * Reveals every [data-reveal] element inside `scopeRef` as it enters the viewport.
- * Supports data-reveal="fade|left|right|scale" variants from index.css.
+ * Supports data-reveal="fade|left|right|scale|3d|flipY|tilt-top" variants from index.css.
  */
 export function useReveals(scopeRef, deps = []) {
   const reduced = usePrefersReducedMotion();
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      const els = gsap.utils.toArray('[data-reveal]');
-      if (reduced) {
-        gsap.set(els, { opacity: 1, x: 0, y: 0, scale: 1 });
-        return;
-      }
+    const root = scopeRef?.current ?? document;
+    const els = Array.from(root.querySelectorAll('[data-reveal]'));
+    if (!els.length) return undefined;
+
+    const reveal = (el) => {
+      el.style.setProperty('--reveal-delay', `${parseFloat(el.dataset.delay || '0')}s`);
+      el.classList.add('is-revealed');
+    };
+
+    if (reduced) {
+      els.forEach(reveal);
+      return undefined;
+    }
+
+    /*
+     * IntersectionObserver, not a ScrollTrigger per element.
+     *
+     * The old version created ~50 ScrollTriggers whose start/end positions were
+     * measured on mount. Every pin (services rail, cinema chapter) and every
+     * late-loading photo then shifted those positions, so sections scrolled into
+     * view without ever firing and stayed at opacity 0 — a blank white band.
+     * IO measures nothing, so pins and lazy images cannot invalidate it.
+     */
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          reveal(entry.target);
+          io.unobserve(entry.target);
+        });
+      },
+      { rootMargin: '0px 0px -8% 0px', threshold: 0.01 }
+    );
+    els.forEach((el) => io.observe(el));
+
+    // Anything already on screen at mount (deep link, restored scroll position)
+    // is revealed immediately instead of waiting for a scroll that may not come.
+    const raf = requestAnimationFrame(() => {
       els.forEach((el) => {
-        const variant = el.getAttribute('data-reveal') || 'up';
-        const from =
-          variant === 'left' ? { x: -32, y: 0 } :
-          variant === 'right' ? { x: 32, y: 0 } :
-          variant === 'scale' ? { scale: 0.94, y: 0 } :
-          variant === 'fade' ? { y: 0 } : { y: 26 };
-
-        // `opacity` (not autoAlpha) keeps the text in the accessibility tree and
-        // in heading order while it waits to be revealed — visibility:hidden would
-        // hide below-the-fold headings from screen readers and from audits.
-        gsap.fromTo(
-          el,
-          { opacity: 0, ...from },
-          {
-            opacity: 1,
-            x: 0,
-            y: 0,
-            scale: 1,
-            duration: 0.9,
-            ease: 'power3.out',
-            delay: parseFloat(el.dataset.delay || 0),
-            scrollTrigger: { trigger: el, start: 'top 88%', once: true },
-          }
-        );
+        const r = el.getBoundingClientRect();
+        if (r.top < window.innerHeight && r.bottom > 0) {
+          reveal(el);
+          io.unobserve(el);
+        }
       });
-    }, scopeRef);
-
-    // Layout shifts (fonts, images, route change) move triggers around.
-    const refresh = () => ScrollTrigger.refresh();
-    window.addEventListener('load', refresh);
-    const timer = setTimeout(refresh, 400);
+    });
 
     return () => {
-      window.removeEventListener('load', refresh);
-      clearTimeout(timer);
-      ctx.revert();
+      cancelAnimationFrame(raf);
+      io.disconnect();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reduced, ...deps]);
 }
 
+// Re-exported for components that need the same registered plugin instance.
 export { gsap, ScrollTrigger };

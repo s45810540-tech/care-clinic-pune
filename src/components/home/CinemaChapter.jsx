@@ -182,12 +182,13 @@ export default function CinemaChapter() {
   return (
     <section
       ref={rootRef}
-      className="relative overflow-hidden bg-[#04211f] py-20 text-white sm:py-24 lg:min-h-screen lg:py-0"
+      className="relative overflow-hidden bg-gradient-to-br from-brand-800 via-grape-800 to-sky-800 py-20 text-white sm:py-24 lg:min-h-screen lg:py-0"
     >
-      {/* Colour grade: teal key, amber bounce, deep cinematic vignette. */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(820px_420px_at_78%_22%,rgba(20,184,166,0.3),transparent_65%),radial-gradient(700px_400px_at_12%_92%,rgba(249,155,32,0.2),transparent_60%)]" />
-      <div className="pointer-events-none absolute inset-0 grain opacity-50" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,rgba(2,12,11,0.72)_100%)]" />
+      {/* Colour grade: three saturated hues instead of a near-black slab, with a
+          light vignette so the 3D helix keeps its depth. */}
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(760px_400px_at_82%_18%,rgba(107,230,186,0.42),transparent_62%),radial-gradient(680px_380px_at_8%_96%,rgba(255,176,32,0.34),transparent_60%),radial-gradient(520px_320px_at_20%_0%,rgba(255,116,102,0.3),transparent_62%)]" />
+      <div className="pointer-events-none absolute inset-0 grain opacity-25" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_45%,rgba(6,10,24,0.42)_100%)]" />
 
       <div className="relative flex min-h-full flex-col justify-center lg:min-h-screen lg:py-24">
         <div className="container-page grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
@@ -195,18 +196,18 @@ export default function CinemaChapter() {
           <div className="relative z-10">
             {/* Chapter meter (decorative) */}
             <div className="mb-7 flex items-center gap-4 text-[11px] font-bold uppercase tracking-[0.2em]" aria-hidden>
-              <span className="text-accent-300">0{beat + 1}</span>
-              <span className="relative h-px w-24 bg-white/20 sm:w-32">
+              <span className="text-mango-300">0{beat + 1}</span>
+              <span className="relative h-px w-24 bg-white/30 sm:w-32">
                 <span
                   ref={barRef}
-                  className="absolute inset-y-0 left-0 w-full origin-left bg-accent-400"
+                  className="absolute inset-y-0 left-0 w-full origin-left bg-mango-300"
                   style={{ transform: 'scaleX(0)' }}
                 />
               </span>
               <span className="text-white/40">0{CHAPTERS.length}</span>
             </div>
 
-            <span className="eyebrow !border-white/20 !bg-white/10 !text-brand-100">
+            <span className="eyebrow !border-white/30 !bg-white/15 !text-white">
               {t('about.valuesTitle')}
             </span>
             {/* text-white must be explicit: the base-layer h1–h4 rule sets text-ink,
@@ -221,10 +222,10 @@ export default function CinemaChapter() {
               {CHAPTERS.map((c) => (
                 <article
                   key={c.i}
-                  className="cinema-card rounded-3xl border border-white/10 bg-white/[0.07] p-5 backdrop-blur-sm sm:p-6"
+                  className="cinema-card rounded-3xl border border-white/20 bg-white/[0.12] p-5 backdrop-blur-md sm:p-6"
                 >
                   <div className="flex items-center gap-3">
-                    <span className="text-xs font-extrabold tracking-[0.2em] text-accent-300">{c.i}</span>
+                    <span className="text-xs font-extrabold tracking-[0.2em] text-mango-300">{c.i}</span>
                     <span className="h-px flex-1 bg-white/10" />
                   </div>
                   <h3 className="mt-3 text-lg text-white sm:text-xl">{t(c.t)}</h3>

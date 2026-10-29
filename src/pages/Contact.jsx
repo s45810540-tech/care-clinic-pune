@@ -2,10 +2,11 @@ import { useI18n } from '../i18n/I18nContext';
 import { useSeo } from '../utils/seo';
 import { useReveals } from '../hooks/useScroll';
 import { PageHeader, SectionHeading, RatingBadge } from '../components/ui';
-import { ADDRESS, HOURS, MAPS_LINK, PHONE_DISPLAY, PHONE_TEL, RATING, waLink } from '../data/site';
+import { ADDRESS, MAPS_LINK, PHONE_DISPLAY, PHONE_TEL, RATING, waLink } from '../data/site';
 import { photoSrc } from '../data/photos';
-import { formatTime } from '../utils/clinic';
+import { hoursSummary } from '../utils/clinic';
 import Icon from '../components/Icon';
+import Tilt from '../components/Tilt';
 import { Link } from 'react-router-dom';
 
 export default function Contact() {
@@ -18,8 +19,7 @@ export default function Contact() {
   });
   useReveals();
 
-  const openLabel = formatTime(HOURS.openingTime, lang);
-  const closeLabel = formatTime(HOURS.closingTime, lang);
+  const hours = hoursSummary(lang);
 
   const cards = [
     {
@@ -86,11 +86,7 @@ export default function Contact() {
             >
               <span
                 className={`grid h-12 w-12 place-items-center rounded-2xl ${
-                  c.green
-                    ? 'bg-emerald-50 text-emerald-700'
-                    : c.sky
-                      ? 'bg-sky-50 text-sky-700'
-                      : 'bg-brand-50 text-brand-700'
+                  c.green ? 'bg-emerald-50 text-emerald-700' : 'bg-brand-50 text-brand-700'
                 }`}
               >
                 <Icon
@@ -128,7 +124,7 @@ export default function Contact() {
               <Icon name="clock" className="mt-0.5 h-5 w-5 shrink-0 text-brand-600" />
               <div>
                 <p className="font-bold text-ink">
-                  {t('common.daily')} · {openLabel} – {closeLabel}
+                  {t('common.daily')} · {hours}
                 </p>
                 <p className="text-sm text-ink-mute">Open every day, including Sunday. [PLACEHOLDER: confirm timings.]</p>
               </div>
@@ -144,20 +140,21 @@ export default function Contact() {
 
             {/* Wayfinding card: the actual board above the entrance (real photo
                 once src/assets/photos/signboard.* exists, placeholder art until). */}
-            <figure
-              className="mt-6 max-w-md -rotate-1 overflow-hidden rounded-2xl border border-brand-200 bg-white p-2 shadow-card"
-              data-reveal="scale"
-            >
-              <img
-                src={photoSrc('signboard', '/images/gallery-4.svg')}
-                alt={t('contact.lookFor')}
-                loading="lazy"
-                width={640}
-                height={400}
-                className="aspect-[16/10] w-full rounded-xl object-cover"
-              />
-              <figcaption className="px-2 py-2.5 text-sm font-bold text-ink-soft">{t('contact.lookFor')}</figcaption>
-            </figure>
+            <Tilt max={6} className="mt-6 max-w-md rounded-2xl" data-reveal="scale">
+              <figure className="m-0 -rotate-1 overflow-hidden rounded-2xl border border-line bg-white p-2 shadow-card">
+                <img
+                  src={photoSrc('signboard', '/images/gallery-4.svg')}
+                  alt={t('contact.lookFor')}
+                  loading="lazy"
+                  width={1200}
+                  height={1070}
+                  /* contain, not cover: the whole board carries the timings and
+                     both registration numbers, so cropping it would hide them. */
+                  className="aspect-[5/4] w-full rounded-xl bg-white object-contain"
+                />
+                <figcaption className="px-2 py-2.5 text-sm font-bold text-ink-soft">{t('contact.lookFor')}</figcaption>
+              </figure>
+            </Tilt>
           </div>
 
           <div data-reveal="right">

@@ -11,6 +11,15 @@ import { useLayoutEffect } from 'react';
  * fades in. On phones the rail sits on the left; on desktop it stays centred
  * with alternating cards.
  */
+const TONES = ['bg-brand-700', 'bg-coral-600', 'bg-sky-600', 'bg-grape-600', 'bg-mango-600'];
+const ACCENTS = [
+  'hover:border-brand-300',
+  'hover:border-coral-300',
+  'hover:border-sky-300',
+  'hover:border-grape-300',
+  'hover:border-mango-300',
+];
+
 export default function VisitTimeline() {
   const rootRef = useRef(null);
   const railRef = useRef(null);
@@ -65,19 +74,19 @@ export default function VisitTimeline() {
                   className={`relative pl-16 sm:w-1/2 sm:pl-0 ${
                     right ? 'sm:ml-auto sm:pl-14' : 'sm:pr-14 sm:text-right'
                   }`}
-                  data-reveal={right ? 'right' : 'left'}
+                  data-reveal={right ? 'flipY' : 'tilt-top'}
+                  data-delay={i * 0.05}
                 >
-                  {/* Node on the rail */}
-                  {/* Rotating node colours: each stays AA with white text */}
+                  {/* Node on the rail: one hue per step, all AA on white text. */}
                   <span
-                    className={`absolute top-1 z-10 grid h-12 w-12 place-items-center rounded-full border-4 border-white text-sm font-extrabold text-white shadow-soft left-0.5 ${
-                      ['bg-brand-700', 'bg-accent-700', 'bg-sky-600', 'bg-rose-600'][i % 4]
+                    className={`absolute left-0.5 top-1 z-10 grid h-12 w-12 place-items-center rounded-full border-4 border-white text-sm font-extrabold text-white shadow-soft ${
+                      TONES[i % TONES.length]
                     } ${right ? 'sm:-left-6' : 'sm:left-auto sm:-right-6'}`}
                   >
                     {step.step}
                   </span>
 
-                  <div className="rounded-3xl border border-brand-100 bg-white p-5 shadow-card sm:p-6">
+                  <div className={`card-pop rounded-3xl border border-line bg-white p-5 shadow-card sm:p-6 ${ACCENTS[i % ACCENTS.length]}`}>
                     <h3 className="text-xl">{L(step.title)}</h3>
                     <p className="mt-2 text-sm leading-relaxed text-ink-mute sm:text-base">{L(step.body)}</p>
                   </div>

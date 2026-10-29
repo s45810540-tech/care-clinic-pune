@@ -2,9 +2,11 @@ import { useI18n } from '../i18n/I18nContext';
 import { useSeo } from '../utils/seo';
 import { useReveals } from '../hooks/useScroll';
 import { PageHeader, SectionHeading, PlaceholderTag } from '../components/ui';
-import { DOCTOR, PHONE_DISPLAY, PHONE_TEL, waLink } from '../data/site';
+import { DOCTORS, DOCTOR, PHONE_DISPLAY, PHONE_TEL, waLink } from '../data/site';
 import { Link } from 'react-router-dom';
 import Icon from '../components/Icon';
+import Tilt from '../components/Tilt';
+import { photoSrc } from '../data/photos';
 import { GALLERY } from '../data/content';
 
 const VALUES = ['about.v1T', 'about.v1B', 'about.v2T', 'about.v2B', 'about.v3T', 'about.v3B', 'about.v4T', 'about.v4B'];
@@ -30,11 +32,11 @@ export default function About() {
     <>
       <PageHeader eyebrow={t('nav.about')} title={t('about.title')} sub={t('about.sub')} />
 
-      {/* Doctor */}
-      <section className="container-page py-14 sm:py-20">
-        <div className="grid items-start gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+      {/* Consultants — both doctors, with the registration numbers from the signboard */}
+      <section className="container-page section">
+        <div className="grid items-start gap-10 lg:grid-cols-[0.85fr_1.1fr] lg:gap-16">
           <div data-reveal="left">
-            <div className="overflow-hidden rounded-[2rem] border border-brand-100 shadow-soft">
+            <Tilt max={7} className="overflow-hidden rounded-4xl border border-line shadow-lift">
               <img
                 src={DOCTOR.photo}
                 alt={`${DOCTOR.name} — [PLACEHOLDER: replace with the clinic's real photograph]`}
@@ -42,41 +44,35 @@ export default function About() {
                 height={1000}
                 className="aspect-[4/5] w-full object-cover"
               />
-            </div>
+            </Tilt>
             <p className="mt-3 flex flex-wrap items-center gap-1 text-xs text-ink-mute">
-              <PlaceholderTag>Client photo</PlaceholderTag> <PlaceholderTag>Client credentials</PlaceholderTag>
+              <PlaceholderTag>Client photo</PlaceholderTag>
             </p>
           </div>
 
           <div data-reveal="right">
-            <span className="eyebrow">{t('home.doctorTitle')}</span>
-            <h2 className="mt-5 text-3xl leading-[1.1] sm:text-4xl lg:text-5xl">{t('about.doctorTitle')}</h2>
-            <p className="mt-2 text-sm font-semibold uppercase tracking-[0.14em] text-brand-700">
-              {L(DOCTOR.role)}
-            </p>
+            <span className="eyebrow">
+              <span className="eyebrow-dot" aria-hidden />
+              {t('home.doctorTitle')}
+            </span>
+            <h2 className="mt-5 title-lg">{t('about.doctorTitle')}</h2>
 
-            <dl className="mt-6 grid gap-4 sm:grid-cols-2">
-              <div className="card p-5">
-                <dt className="text-xs font-bold uppercase tracking-wide text-brand-700">{t('about.qualifications')}</dt>
-                <dd className="mt-1.5 text-lg font-bold text-ink">{DOCTOR.qualifications}</dd>
-                <p className="mt-2 text-xs text-ink-mute">
-                  [PLACEHOLDER] The exact degrees must come from the clinic before launch.
-                </p>
-              </div>
-              <div className="card p-5">
-                <dt className="text-xs font-bold uppercase tracking-wide text-brand-700">{t('about.regNo')}</dt>
-                <dd className="mt-1.5 text-lg font-bold text-ink">{DOCTOR.regNo}</dd>
-                <p className="mt-2 text-xs text-ink-mute">
-                  [PLACEHOLDER] State Medical Council registration number to be supplied.
-                </p>
-              </div>
-            </dl>
+            <ul className="mt-6 space-y-4">
+              {DOCTORS.map((doc) => (
+                <li key={doc.id} className="card p-5">
+                  <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
+                    <h3 className="text-lg">{doc.name}</h3>
+                    <span className="chip tabular">
+                      {doc.qualifications} · {t('about.regNo')} {doc.regNo}
+                    </span>
+                  </div>
+                  <p className="mt-1.5 text-sm font-semibold text-brand-700">{L(doc.role)}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-ink-mute">{L(doc.focus)}</p>
+                </li>
+              ))}
+            </ul>
 
-            <div className="prose-clinic mt-6">
-              <p>
-                {t('home.doctorBody')}
-              </p>
-            </div>
+            <p className="mt-5 text-sm leading-relaxed text-ink-mute sm:text-base">{t('home.doctorBody')}</p>
 
             <div className="mt-7 flex flex-wrap gap-3">
               <Link to="/book" className="btn-primary" data-magnetic>
@@ -89,6 +85,21 @@ export default function About() {
             </div>
           </div>
         </div>
+      </section>
+
+      {/* The team photograph — the whole clinic staff, in one 3D frame */}
+      <section className="container-page pb-14 sm:pb-20">
+        <Tilt max={4} scale={1.01} className="overflow-hidden rounded-4xl border border-line shadow-lift" data-reveal="3d">
+          <img
+            src={photoSrc('team', '/images/gallery-3.svg')}
+            alt={t('about.teamPhotoAlt')}
+            width={1700}
+            height={662}
+            loading="lazy"
+            className="aspect-[21/9] w-full object-cover"
+          />
+        </Tilt>
+        <p className="mt-3 text-center text-xs font-semibold text-ink-mute">{t('about.teamPhotoAlt')}</p>
       </section>
 
       {/* Story */}
@@ -126,12 +137,7 @@ export default function About() {
           {valuePairs.map((v, i) => (
             <article key={v.t} className="card p-6" data-reveal data-delay={i * 0.06} data-magnetic>
               <span
-                className={`grid h-11 w-11 place-items-center rounded-2xl text-white ${[
-                  'bg-brand-700',
-                  'bg-accent-600',
-                  'bg-sky-600',
-                  'bg-rose-600',
-                ][i]}`}
+                className="grid h-11 w-11 place-items-center rounded-2xl bg-brand-50 text-brand-700 ring-1 ring-inset ring-brand-100"
               >
                 <Icon name={['users', 'info', 'arrowUpRight', 'shield'][i]} className="h-5 w-5" />
               </span>
