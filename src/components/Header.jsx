@@ -117,7 +117,7 @@ export default function Header() {
       {/* Spectrum crown: 3px of colour across the very top of every page. */}
       <div className="rainbow-edge h-[3px] w-full" aria-hidden />
       {/* Utility strip — emergency number, phone, rating, language. */}
-      <div className="bg-gradient-to-r from-brand-900 via-grape-700 to-sky-700 text-white">
+      <div className="bg-brand-950 text-white">
         <div className="container-page flex min-h-8 items-center justify-between gap-3 py-1 text-[11px] sm:text-xs">
           <p className="flex min-w-0 items-center gap-1.5 font-semibold">
             <Icon name="info" className="h-3.5 w-3.5 shrink-0 text-mango-300" />

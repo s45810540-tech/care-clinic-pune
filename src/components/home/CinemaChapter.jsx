@@ -148,7 +148,7 @@ export default function CinemaChapter() {
   return (
     <section
       ref={rootRef}
-      className="relative overflow-hidden bg-gradient-to-br from-brand-800 via-grape-800 to-sky-800 py-20 text-white sm:py-24 lg:min-h-screen lg:py-0"
+      className="relative overflow-hidden bg-gradient-to-br from-brand-950 via-brand-900 to-brand-800 py-20 text-white sm:py-24 lg:min-h-screen lg:py-0"
     >
       {/* Colour grade: three saturated hues instead of a near-black slab, with a
           light vignette so the 3D helix keeps its depth. */}
